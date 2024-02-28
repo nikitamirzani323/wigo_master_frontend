@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  wigo-master-frontend:
+    container_name: wigo-master-frontend
+    image: wigo-master-frontend:0.0.1
+    build: .
+    volumes:
+    - ./frontend:/app/frontend
+    ports:
+      - 1112:1112
+    restart: always

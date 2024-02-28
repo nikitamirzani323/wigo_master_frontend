@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "svelte": "^3.59.2",
+    "sveltestrap": "^5.11.2"
+  }
+}
