@@ -8,9 +8,16 @@
     let token = localStorage.getItem("token");
     let akses_page = false;
     let listHome = [];
+    let listPage = [];
+    let listCurrency = [];
+    let search = "";
     let record = "";
     let record_message = "";
     let totalrecord = 0;
+    let totalrecordall = 0;
+    let totalpaging = 0;
+    let perpage = 0;
+    let page = 0;
 
     async function initapp() {
         const res = await fetch("/api/valid", {
@@ -20,7 +27,7 @@
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
-                page: "CURR-VIEW",
+                page: "COMPANY-VIEW",
             }),
         });
         const json = await res.json();
@@ -33,21 +40,28 @@
             initHome();
         }
     }
-    async function initHome() {
-        const res = await fetch("/api/curr", {
+    async function initHome(e) {
+        listHome = [];
+        const res = await fetch("/api/company", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
+                company_search: e,
+                company_page : parseInt(page)
             }),
         });
         const json = await res.json();
         if (json.status == 200) {
             record = json.record;
+            let record_listcurr = json.listcurr;
             record_message = json.message;
+            perpage = json.perpage;
+            totalrecordall = json.totalrecord;
             if (record != null) {
+                totalpaging = Math.ceil(parseInt(totalrecordall) / parseInt(perpage))
                 totalrecord = record.length;
                 let no = 0
                 for (var i = 0; i < record.length; i++) {
@@ -56,13 +70,34 @@
                         ...listHome,
                         {
                             home_no: no,
-                            home_id: record[i]["curr_id"],
-                            home_name: record[i]["curr_name"],
-                            home_create: record[i]["curr_create"],
-                            home_update: record[i]["curr_update"],
+                            home_id: record[i]["departement_id"],
+                            home_name: record[i]["departement_name"],
+                            home_status: record[i]["departement_status"],
+                            home_status_css: record[i]["departement_status_css"],
+                            home_create: record[i]["departement_create"],
+                            home_update: record[i]["departement_update"],
                         },
                     ];
                 }
+                listPage = [];
+                for(var i=1;i<=totalpaging;i++){
+                    listPage = [
+                        ...listPage,
+                        {
+                            page_id: i,
+                            page_value: ((i*perpage)-perpage),
+                            page_display: i + " Of " + perpage*i,
+                        },
+                    ];
+                }
+            }
+            for (var i = 0; i < record_listcurr.length; i++) {
+                listCurrency = [
+                    ...listCurrency,
+                    {
+                        curr_id: record_listcurr[i]["curr_id"],
+                    },
+                ];
             }
         } else {
             logout();
@@ -79,15 +114,27 @@
             initHome();
         }, 500);
     };
+    const handleSearch = (e) => {
+        search = e.detail.searchHome;
+        initHome(search,"")
+    };
+    const handlePaging = (e) => {
+        page = e.detail.page
+        initHome("")
+    };
     initapp()
 </script>
 
 {#if akses_page == true}
 <Home
+    on:handlePaging={handlePaging}
+    on:handleSearch={handleSearch}
     on:handleRefreshData={handleRefreshData}
     {token}
     {table_header_font}
     {table_body_font}
+    {listPage}
     {listHome}
+    {listCurrency}
     {totalrecord}/>
 {/if}

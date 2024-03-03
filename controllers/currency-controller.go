@@ -68,11 +68,10 @@ func Currencyhome(c *fiber.Ctx) error {
 }
 func CurrencySave(c *fiber.Ctx) error {
 	type payload_domainsave struct {
-		Page            string  `json:"page"`
-		Sdata           string  `json:"sdata" `
-		Curr_id         string  `json:"curr_id" `
-		Curr_name       string  `json:"curr_name" `
-		Curr_multiplier float32 `json:"curr_multiplier" `
+		Page      string `json:"page"`
+		Sdata     string `json:"sdata" `
+		Curr_id   string `json:"curr_id" `
+		Curr_name string `json:"curr_name" `
 	}
 	hostname := c.Hostname()
 	bearToken := c.Get("Authorization")
@@ -101,7 +100,6 @@ func CurrencySave(c *fiber.Ctx) error {
 			"sdata":           client.Sdata,
 			"curr_id":         client.Curr_id,
 			"curr_name":       client.Curr_name,
-			"curr_multiplier": client.Curr_multiplier,
 		}).
 		Post(PATH + "api/currsave")
 	if err != nil {

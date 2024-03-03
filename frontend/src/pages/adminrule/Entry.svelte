@@ -205,7 +205,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th colspan="2">GAME MANAGEMENT</th>
+                                <th colspan="2">COMPANY</th>
                                 <th colspan="2">PROVIDER MANAGEMENT</th>
                                 <th colspan="2">CATEGORY GAME MANAGEMENT</th>
                                 <th colspan="2">MASTER MANAGEMENT</th>
@@ -218,7 +218,7 @@
                                 <td width="1%">
                                     <input bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="GAME-VIEW"/>
+                                        value="COMPANY-VIEW"/>
                                 </td>
                                 <td width="*">VIEW</td>
                                 <td width="1%">
@@ -255,7 +255,7 @@
                                 <td width="1%">
                                     <input bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="GAME-SAVE"/>
+                                        value="COMPANY-SAVE"/>
                                 </td>
                                 <td width="*">SAVE</td>
                                 <td width="1%">

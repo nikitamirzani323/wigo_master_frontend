@@ -18,6 +18,14 @@
             return e.target.value = parseInt(e.target.value);
         }
 	}
+    const handleKeyboard_number_float = (e) => {
+        if (isNaN(parseFloat(e.target.value))) {
+            return e.target.value = "";
+        }
+	}
+    const handleKeyboard_number_float_blur = (e) => {
+        return e.target.parseFloat = parseFloat(e.target.value);
+	}
 </script>
 {#if input_tipe == "text_standart"}
     <input 
@@ -42,6 +50,21 @@
     <input 
         bind:value
         on:keyup={handleKeyboard_number_standart}
+        {disabled}
+        class="form-control {input_required}"
+        maxlength="{input_maxlength}"
+        style="text-align: right;"
+        type="text"
+        placeholder="{input_placeholder}"/>
+    <div id="passwordHelpBlock" class="form-text" style="text-align: right;color:blue;">
+        {new Intl.NumberFormat().format(value)}
+    </div>
+{/if}
+{#if input_tipe == "number_float"}
+    <input 
+        bind:value
+        on:keyup={handleKeyboard_number_float}
+        on:blur={handleKeyboard_number_float_blur}
         {disabled}
         class="form-control {input_required}"
         maxlength="{input_maxlength}"

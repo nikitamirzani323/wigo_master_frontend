@@ -20,7 +20,6 @@
     let flag_id_field = false;
     let flag_btnsave = true;
     let name_field = "";
-    let multiplier_field = 0;
     let create_field = "";
     let update_field = "";
     let idrecord = "";
@@ -42,7 +41,7 @@
         }
     }
     
-    const NewData = (e,id,nmcurr,multiplier,create,update) => {
+    const NewData = (e,id,nmcurr,create,update) => {
         sData = e
         if(sData == "New"){
             clearField()
@@ -50,7 +49,6 @@
             flag_id_field = true;
             idrecord = id
             name_field = nmcurr;
-            multiplier_field = multiplier;
             create_field = create;
             update_field = update;
         }
@@ -79,10 +77,6 @@
                 flag = false
                 msg += "The Name is required\n"
             }
-            if(multiplier_field == ""){
-                flag = false
-                msg += "The Multiplier is required\n"
-            }
         }else{
             if(idrecord == ""){
                 flag = false
@@ -91,10 +85,6 @@
             if(name_field == ""){
                 flag = false
                 msg += "The Domain is required\n"
-            }
-            if(multiplier_field == ""){
-                flag = false
-                msg += "The Multiplier is required\n"
             }
         }
         
@@ -113,7 +103,6 @@
                     page:"CURR-SAVE",
                     curr_id: idrecord,
                     curr_name: name_field,
-                    curr_multiplier: parseFloat(multiplier_field),
                 }),
             });
             const json = await res.json();
@@ -142,7 +131,6 @@
     function clearField(){
         idrecord = "";
         name_field = "";
-        multiplier_field = 0;
         flag_id_field = false
         create_field = "";
         update_field = "";
@@ -224,7 +212,6 @@
                                 <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" >&nbsp;</th>
                                 <th NOWRAP width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NO</th>
                                 <th NOWRAP width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">CURRENCY</th>
-                                <th NOWRAP width="10%" style="text-align: right;vertical-align: top;font-weight:bold;font-size: {table_header_font};">MULTIPLIER</th>
                             </tr>
                         </thead>
                         {#if totalrecord > 0}
@@ -233,12 +220,11 @@
                                 <tr>
                                     <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
                                         <i on:click={() => {
-                                                NewData("Edit",rec.home_id, rec.home_name, rec.home_multiplier,rec.home_create, rec.home_update);
+                                                NewData("Edit",rec.home_id, rec.home_name, rec.home_create, rec.home_update);
                                             }} class="bi bi-pencil"></i>
                                     </td>
                                     <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.home_no}</td>
                                     <td  style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.home_id}</td>
-                                    <td  style="text-align: right;vertical-align: top;font-size: {table_body_font};">{new Intl.NumberFormat().format(rec.home_multiplier)}</td>
                                 </tr>
                             {/each}
                         </tbody>
@@ -292,16 +278,6 @@
                 class="required"
                 type="text"
                 placeholder="Name"/>
-        </div>
-        <div class="mb-3">
-            <label for="exampleForm" class="form-label">Multiplier</label>
-            <Input
-                on:keyup={handleKeyboard_float} 
-                bind:value={multiplier_field}
-                style="text-align: right;"
-                class="required"
-                type="text"
-                placeholder="Multiplier"/>
         </div>
         {#if sData != "New"}
         <div class="mb-3">

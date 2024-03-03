@@ -72,6 +72,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
+                                <a class="dropdown-item" use:link href="/company" style="font-size: 13px;">COMPANY</a>
                                 <a class="dropdown-item" use:link href="/departement" style="font-size: 13px;">DEPARTEMENT MANAGEMENT</a>
                                 <a class="dropdown-item" use:link href="/employee" style="font-size: 13px;">EMPLOYEE MANAGEMENT</a>
                                 <a class="dropdown-item" use:link href="/catevendor" style="font-size: 13px;">CATEGORY VENDOR MANAGEMENT</a>
