@@ -60,6 +60,7 @@ func Init() *fiber.App {
 	app.Post("/api/curr", controllers.Currencyhome)
 	app.Post("/api/currsave", controllers.CurrencySave)
 	app.Post("/api/company", controllers.Companyhome)
+	app.Post("/api/companyadmin", controllers.Companyadminhome)
 	app.Post("/api/companysave", controllers.CompanySave)
 
 	app.Post("/api/employee", controllers.Employeehome)

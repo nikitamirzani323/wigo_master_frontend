@@ -17,7 +17,9 @@
     let dispatch = createEventDispatcher();
 	let title_page = "COMPANY"
     let sData = "";
+    let sDataadmin = "";
     let myModal_newentry = "";
+    let myModal_admin = "";
     let flag_btnsave = true;
     let flag_id_field = false;
     let flag_idcurr_field = false;
@@ -34,6 +36,17 @@
     let create_field = "";
     let update_field = "";
     let idrecord = "";
+
+    //ADMIN
+    let listadmin = [];
+    let idcompany = "";
+    let admin_username_field = "";
+    let admin_password_field = "";
+    let admin_name_field = "";
+    let admin_status_field = "";
+    let admin_create_field = "";
+    let admin_update_field = "";
+
     let pagingnow = 0;
     let searchHome = "";
     let filterHome = [];
@@ -80,7 +93,6 @@
         myModal_newentry = new bootstrap.Modal(document.getElementById("modalentrycrud"));
         myModal_newentry.show();
     };
-   
     const RefreshHalaman = () => {
         dispatch("handleRefreshData", "call");
     };
@@ -214,7 +226,142 @@
         create_field = "";
         update_field = "";
     }
-  
+    
+    //ADMIN
+    const showAdmin = (e) => {
+        idcompany = e
+        call_admin(idcompany)
+        myModal_admin = new bootstrap.Modal(document.getElementById("modal_companyadmin"));
+        myModal_admin.show();
+    };
+    const call_formadmin = (e) => {
+        sDataadmin = e
+        if(sDataadmin == "Edit"){
+            // storage_flag_id = true;
+            // bin_id_field = idbin;
+            // bin_iduom_field = iduom;
+            // bin_name_field = nmbin;
+            // bin_maxcapacity_field = max;
+            // bin_status_field = status;
+            // bin_create_field = create;
+            // bin_update_field = update;
+        }
+
+        myModal_newentry = new bootstrap.Modal(document.getElementById("modal_crudcompanyadmin"));
+        myModal_newentry.show();
+        
+    };
+    
+    async function call_admin(e) {
+        listadmin = [];
+        const res = await fetch("/api/companyadmin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                companyadmin_idcompany: e,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            if (record != null) {
+                let no = 0;
+                for (var i = 0; i < record.length; i++) {
+                    no = no + 1;
+                    listadmin = [
+                        ...listadmin,
+                        {
+                            itemshare_no: no,
+                            itemshare_id: record[i]["itemshare_id"],
+                            itemshare_nmcateitem: record[i]["itemshare_nmcateitem"],
+                            itemshare_name: record[i]["itemshare_name"],
+                            itemshare_descp: record[i]["itemshare_descp"],
+                            itemshare_urlimg: record[i]["itemshare_urlimg"],
+                            itemshare_uom: record[i]["itemshare_uom"],
+                        },
+                    ];
+                }
+            }
+        }
+    }
+    async function handleSave_admin() {
+        let flag = true
+        let msg = ""
+        if(sDataadmin == "New"){
+            if(admin_username_field == ""){
+                flag = false
+                msg += "The Userame is required\n"
+            }
+            if(admin_password_field == ""){
+                flag = false
+                msg += "The Password is required\n"
+            }
+            if(admin_name_field == ""){
+                flag = false
+                msg += "The Name is required\n"
+            }
+            if(admin_status_field == ""){
+                flag = false
+                msg += "The Status is required\n"
+            }
+        }else{
+            if(admin_name_field == ""){
+                flag = false
+                msg += "The Name is required\n"
+            }
+            if(admin_status_field == ""){
+                flag = false
+                msg += "The Status is required\n"
+            }
+        }
+        
+        if(flag){
+            flag_btnsave = false;
+            css_loader = "display: inline-block;";
+            msgloader = "Sending...";
+            const res = await fetch("/api/warehousestoragebinsave", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sDataBin,
+                    page:"CURR-SAVE",
+                    storagebin_id: parseInt(admin_name_field),
+                    storagebin_idstorage: admin_name_field,
+                    storagebin_iduom: admin_name_field,
+                    storagebin_name: admin_name_field,
+                    storagebin_maxcapacity: admin_name_field,
+                    storagebin_status: admin_name_field,
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                flag_btnsave = true;
+                if(sDataBin=="New"){
+                    clearField_bin()
+                }
+                msgloader = json.message;
+                call_bin(bin_idstorage_field)
+            } else if(json.status == 403){
+                flag_btnsave = true;
+                alert(json.message)
+            } else {
+                flag_btnsave = true;
+                msgloader = json.message;
+            }
+            setTimeout(function () {
+                css_loader = "display: none;";
+            }, 1000);
+        }else{
+            alert(msg)
+        }
+    }
+    //ENDADMIN
     function callFunction(event){
         switch(event.detail){
             case "NEW":
@@ -300,9 +447,9 @@
                     <table class="table table-striped ">
                         <thead>
                             <tr>
-                                <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" >&nbsp;</th>
+                                <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" colspan=3>&nbsp;</th>
                                 <th NOWRAP width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NO</th>
-                                <th NOWRAP width="2%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">&nbsp;</th>
+                                <th NOWRAP width="2%" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">STATUS</th>
                                 <th NOWRAP width="5%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">CODE</th>
                                 <th NOWRAP width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">COMPANY</th>
                                 <th NOWRAP width="10%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">OWNER</th>
@@ -320,6 +467,20 @@
                                                 rec.home_url1,rec.home_url2,rec.home_status,
                                                 rec.home_create, rec.home_update);
                                             }} class="bi bi-pencil"></i>
+                                    </td>
+                                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                                        <i on:click={() => {
+                                                showAdmin(rec.home_id);
+                                            }} class="bi bi-person"></i>
+                                    </td>
+                                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                                        <i on:click={() => {
+                                            //e,id,idcurr,name,owner,email,phone1,phone2,minfee,url1,url2,status,create,update
+                                                NewData("Edit",rec.home_id,rec.home_idcurr, rec.home_name,
+                                                rec.home_owner,rec.home_email,rec.home_hp1,rec.home_hp2,rec.home_minfee,
+                                                rec.home_url1,rec.home_url2,rec.home_status,
+                                                rec.home_create, rec.home_update);
+                                            }} class="bi bi-gear"></i>
                                     </td>
                                     <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.home_no}</td>
                                     <td NOWRAP  style="text-align: center;vertical-align: top;font-size: 11px;">
@@ -493,3 +654,105 @@
 	</slot:template>
 </Modal>
 
+<Modal
+    modal_id="modal_companyadmin"
+    modal_size="modal-dialog-centered modal-lg"
+    modal_title="ADMIN"
+    modal_body_css="height:500px; overflow-y: scroll;"
+    modal_footer_css="padding:5px;"
+    modal_footer={true}>
+    <slot:template slot="body">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th width="1%" style="text-align: cener;vertical-align: top;font-weight:bold;font-size:{table_header_font};">STATUS</th>
+                    <th width="10%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">USERNAME</th>
+                    <th width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NAME</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each listadmin as rec}
+                <tr style="cursor:pointer;" on:click={() => {
+                        handle_pilihitem(rec.itemshare_id,rec.itemshare_name,rec.itemshare_uom);
+                    }}>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};text-decoration:underline;color:blue;">{rec.itemshare_id}</td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.itemshare_nmcateitem}</td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.itemshare_name}</td>
+                </tr>
+                {/each}
+            </tbody>
+        </table>
+    </slot:template>
+    <slot:template slot="footer">
+        <Button on:click={() => {
+                call_formadmin("New");
+            }} 
+            button_title="<i class='bi bi-plus-lg'></i>&nbsp;New"
+            button_css="btn-info"/>
+	</slot:template>
+</Modal>
+<Modal
+	modal_id="modal_crudcompanyadmin"
+	modal_size="modal-dialog-centered "
+	modal_title="New Admin"
+    modal_footer_css="padding:5px;"
+	modal_footer={true}>
+	<slot:template slot="body">
+        <div class="mb-3">
+            <label for="exampleForm" class="form-label">Username</label>
+            <Input_custom
+                bind:value={admin_name_field}
+                input_tipe="text_standart"
+                input_required="required"
+                input_maxlength="50"
+                input_placeholder="Name"/>
+        </div>
+        <div class="mb-3">
+            <label for="exampleForm" class="form-label">Password</label>
+            <Input_custom
+                bind:value={admin_password_field}
+                input_tipe="text_standart"
+                input_required="required"
+                input_maxlength="50"
+                input_placeholder="Name"/>
+        </div>
+        <div class="mb-3">
+            <label for="exampleForm" class="form-label">Name</label>
+            <Input_custom
+                bind:value={admin_name_field}
+                input_tipe="text_standart"
+                input_required="required"
+                input_maxlength="50"
+                input_placeholder="Name"/>
+        </div>
+        <div class="mb-3">
+            <label for="exampleForm" class="form-label">Status</label>
+            <select
+                class="form-control required"
+                bind:value={admin_status_field}>
+                <option value="">--Please Select--</option>
+                <option value="Y">ACTIVE</option>
+                <option value="N">DEACTIVE</option>
+            </select>
+        </div>
+        {#if sDataadmin != "New"}
+            <div class="mb-3">
+                <div class="alert alert-secondary" style="font-size: 11px; padding:10px;" role="alert">
+                    Create : {admin_create_field}<br />
+                    Update : {admin_update_field}
+                </div>
+            </div>
+        {/if}
+       
+	</slot:template>
+	<slot:template slot="footer">
+        {#if flag_btnsave}
+        <Button on:click={() => {
+                handleSave_admin();
+            }} 
+            
+            button_title="<i class='bi bi-save'></i>&nbsp;&nbspSave"
+            button_css="btn-warning"/>
+        {/if}
+	</slot:template>
+</Modal>
