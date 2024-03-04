@@ -56,7 +56,7 @@
         }
     }
     
-    const NewData = (e,id,name,status,create,update) => {
+    const NewData = (e,id,idcurr,name,owner,email,phone1,phone2,minfee,url1,url2,status,create,update) => {
         sData = e
         if(sData == "New"){
             clearField()
@@ -64,7 +64,15 @@
             flag_id_field = true;
             flag_idcurr_field = false;
             idrecord = id;
+            idcurr_field = idcurr;
             name_field = name;
+            owner_field = owner;
+            email_field = email;
+            phone1_field = phone1;
+            phone2_field = phone2;
+            url1_field = url1;
+            url2_field = url2;
+            minimalfee_field = parseFloat(minfee);
             status_field = status;
             create_field = create;
             update_field = update;
@@ -81,9 +89,29 @@
         let msg = ""
         
         if(sData == "New"){
+            if(idrecord == ""){
+                flag = false
+                msg += "The Code is required\n"
+            }
+            if(idcurr_field == ""){
+                flag = false
+                msg += "The Currency is required\n"
+            }
             if(name_field == ""){
                 flag = false
                 msg += "The Name is required\n"
+            }
+            if(owner_field == ""){
+                flag = false
+                msg += "The Owner is required\n"
+            }
+            if(phone1_field == ""){
+                flag = false
+                msg += "The Phone is required\n"
+            }
+            if(url1_field == ""){
+                flag = false
+                msg += "The URL 1 is required\n"
             }
             if(status_field == ""){
                 flag = false
@@ -94,9 +122,25 @@
                 flag = false
                 msg += "The Code is required\n"
             }
+            if(idcurr_field == ""){
+                flag = false
+                msg += "The Currency is required\n"
+            }
             if(name_field == ""){
                 flag = false
                 msg += "The Name is required\n"
+            }
+            if(owner_field == ""){
+                flag = false
+                msg += "The Owner is required\n"
+            }
+            if(phone1_field == ""){
+                flag = false
+                msg += "The Phone is required\n"
+            }
+            if(url1_field == ""){
+                flag = false
+                msg += "The URL 1 is required\n"
             }
             if(status_field == ""){
                 flag = false
@@ -119,7 +163,7 @@
                     page:"COMPANY-SAVE",
                     company_search: searchHome,
                     company_page: parseInt(pagingnow),
-                    company_id: idrecord,
+                    company_id: idrecord.toUpperCase(),
                     company_idcurr: idcurr_field,
                     company_name: name_field,
                     company_owner: owner_field,
@@ -248,7 +292,7 @@
                             on:keypress={handleKeyboard_checkenter}
                             type="text"
                             class="form-control"
-                            placeholder="Search Code, Departement"
+                            placeholder="Search Code, Company"
                             aria-label="Search"/>
                     </div>
                 </slot:template>
@@ -260,7 +304,8 @@
                                 <th NOWRAP width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NO</th>
                                 <th NOWRAP width="2%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">&nbsp;</th>
                                 <th NOWRAP width="5%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">CODE</th>
-                                <th NOWRAP width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">DEPARTEMENT</th>
+                                <th NOWRAP width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">COMPANY</th>
+                                <th NOWRAP width="10%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">OWNER</th>
                             </tr>
                         </thead>
                         {#if totalrecord > 0}
@@ -269,8 +314,10 @@
                                 <tr>
                                     <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
                                         <i on:click={() => {
-                                            //e,id,name,status,create,update
-                                                NewData("Edit",rec.home_id, rec.home_name,rec.home_status,
+                                            //e,id,idcurr,name,owner,email,phone1,phone2,minfee,url1,url2,status,create,update
+                                                NewData("Edit",rec.home_id,rec.home_idcurr, rec.home_name,
+                                                rec.home_owner,rec.home_email,rec.home_hp1,rec.home_hp2,rec.home_minfee,
+                                                rec.home_url1,rec.home_url2,rec.home_status,
                                                 rec.home_create, rec.home_update);
                                             }} class="bi bi-pencil"></i>
                                     </td>
@@ -282,6 +329,7 @@
                                     </td>
                                     <td  style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.home_id}</td>
                                     <td  style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.home_name}</td>
+                                    <td  style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.home_owner}</td>
                                 </tr>
                             {/each}
                         </tbody>
@@ -360,8 +408,8 @@
                     <Input_custom
                         bind:value={email_field}
                         input_tipe="text_standart"
-                        input_required="required"
-                        input_maxlength="250"
+                        input_required=""
+                        input_maxlength="350"
                         input_placeholder="Email"/>
                 </div>
                 <div class="mb-3">
