@@ -505,3 +505,76 @@ func CompanyadminruleSave(c *fiber.Ctx) error {
 		})
 	}
 }
+func CompanyconfSave(c *fiber.Ctx) error {
+	type payload_companyconfsave struct {
+		Page                         string  `json:"page"`
+		Companyconf_id               string  `json:"companyconf_id" `
+		Companyconf_2digit_30_time   int     `json:"companyconf_2digit_30_time" `
+		Companyconf_2digit_30_digit  int     `json:"companyconf_2digit_30_digit" `
+		Companyconf_2digit_30_minbet int     `json:"companyconf_2digit_30_minbet" `
+		Companyconf_2digit_30_maxbet int     `json:"companyconf_2digit_30_maxbet" `
+		Companyconf_2digit_30_win    float64 `json:"companyconf_2digit_30_win" `
+		Companyconf_2digit_30_status string  `json:"companyconf_2digit_30_status" `
+	}
+	hostname := c.Hostname()
+	bearToken := c.Get("Authorization")
+	token := strings.Split(bearToken, " ")
+	client := new(payload_companyconfsave)
+	if err := c.BodyParser(client); err != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"status":  fiber.StatusBadRequest,
+			"message": err.Error(),
+			"record":  nil,
+		})
+	}
+
+	log.Println("Hostname: ", hostname)
+	render_page := time.Now()
+	axios := resty.New()
+	resp, err := axios.R().
+		SetResult(responsedefault{}).
+		SetAuthToken(token[1]).
+		SetError(responseerror{}).
+		SetHeader("Content-Type", "application/json").
+		SetBody(map[string]interface{}{
+			"client_hostname":              hostname,
+			"page":                         client.Page,
+			"companyconf_id":               client.Companyconf_id,
+			"companyconf_2digit_30_time":   client.Companyconf_2digit_30_time,
+			"companyconf_2digit_30_digit":  client.Companyconf_2digit_30_digit,
+			"companyconf_2digit_30_minbet": client.Companyconf_2digit_30_minbet,
+			"companyconf_2digit_30_maxbet": client.Companyconf_2digit_30_maxbet,
+			"companyconf_2digit_30_win":    client.Companyconf_2digit_30_win,
+			"companyconf_2digit_30_status": client.Companyconf_2digit_30_status,
+		}).
+		Post(PATH + "api/companyconfsave")
+	if err != nil {
+		log.Println(err.Error())
+	}
+	log.Println("Response Info:")
+	log.Println("  Error      :", err)
+	log.Println("  Status Code:", resp.StatusCode())
+	log.Println("  Status     :", resp.Status())
+	log.Println("  Proto      :", resp.Proto())
+	log.Println("  Time       :", resp.Time())
+	log.Println("  Received At:", resp.ReceivedAt())
+	log.Println("  Body       :\n", resp)
+	log.Println()
+	result := resp.Result().(*responsedefault)
+	if result.Status == 200 {
+		return c.JSON(fiber.Map{
+			"status":  result.Status,
+			"message": result.Message,
+			"record":  result.Record,
+			"time":    time.Since(render_page).String(),
+		})
+	} else {
+		result_error := resp.Error().(*responseerror)
+		return c.JSON(fiber.Map{
+			"status":  result_error.Status,
+			"message": result_error.Message,
+			"time":    time.Since(render_page).String(),
+		})
+	}
+}

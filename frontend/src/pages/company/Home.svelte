@@ -63,13 +63,15 @@
     let adminrule_create_field = ""
     let adminrule_update_field = ""
 
-    let listconf = [];
+   
     let conf_2D30_time_field = 0;
     let conf_2D30_digit_field = 0;
     let conf_2D30_minbet_field = 0;
     let conf_2D30_maxbet_field = 0;
     let conf_2D30_win_field = 0;
     let conf_2D30_status_field = "";
+    let conf_create_field = "";
+    let conf_update_field = "";
 
     let pagingnow = 0;
     let searchHome = "";
@@ -264,6 +266,16 @@
         adminrule_rule_field = ""
         adminrule_create_field = ""
         adminrule_update_field = ""
+    }
+    function clearField_conf(){
+        conf_2D30_time_field = 0;
+        conf_2D30_digit_field = 0;
+        conf_2D30_minbet_field = 0;
+        conf_2D30_maxbet_field = 0;
+        conf_2D30_win_field = 0;
+        conf_2D30_status_field = "";
+        conf_create_field = "";
+        conf_update_field = "";
     }
 
     //ADMIN
@@ -558,13 +570,13 @@
 
     //CONF
     const showConf = (e) => {
+        clearField_conf()
         idcompany = e
         call_conf(idcompany)
         myModal_admin = new bootstrap.Modal(document.getElementById("modal_companyconf"));
         myModal_admin.show();
     };
     async function call_conf(e) {
-        listconf = [];
         const res = await fetch("/api/companyconf", {
             method: "POST",
             headers: {
@@ -579,27 +591,87 @@
         if (json.status == 200) {
             let record = json.record;
             if (record != null) {
-                let no = 0;
                 for (var i = 0; i < record.length; i++) {
-                    no = no + 1;
-                    listconf = [
-                        ...listconf,
-                        {
-                            companyadmin_no: no,
-                            companyadmin_id: record[i]["companyadmin_id"],
-                            companyadmin_idrule: record[i]["companyadmin_idrule"],
-                            companyadmin_idcompany: record[i]["companyadmin_idcompany"],
-                            companyadmin_nmrule: record[i]["companyadmin_nmrule"],
-                            companyadmin_username: record[i]["companyadmin_username"],
-                            companyadmin_name: record[i]["companyadmin_name"],
-                            companyadmin_status: record[i]["companyadmin_status"],
-                            companyadmin_status_css: record[i]["companyadmin_status_css"],
-                            companyadmin_create: record[i]["companyadmin_create"],
-                            companyadmin_update: record[i]["companyadmin_update"],
-                        },
-                    ];
+                    conf_2D30_time_field = parseInt(record[i]["companyconf_2digit_30_time"]);
+                    conf_2D30_digit_field = parseInt(record[i]["companyconf_2digit_30_digit"]);
+                    conf_2D30_minbet_field = parseInt(record[i]["companyconf_2digit_30_minbet"]);
+                    conf_2D30_maxbet_field = parseInt(record[i]["companyconf_2digit_30_maxbet"]);
+                    conf_2D30_win_field = parseInt(record[i]["companyconf_2digit_30_win"]);
+                    conf_2D30_status_field = record[i]["companyconf_2digit_30_status"];
+                    conf_create_field = record[i]["companyconf_create"];
+                    conf_update_field = record[i]["companyconf_update"];
+                   
                 }
             }
+        }
+    }
+    async function handleSave_conf() {
+        let flag = true
+        let msg = ""
+        if(idcompany == ""){
+            flag = false
+            msg += "The Company is required\n"
+        }
+        if(parseInt(conf_2D30_time_field) < 0){
+            flag = false
+            msg += "The Time is required\n"
+        }
+        if(parseInt(conf_2D30_digit_field) < 0){
+            flag = false
+            msg += "The Digit is required\n"
+        }
+        if(parseInt(conf_2D30_minbet_field) < 0){
+            flag = false
+            msg += "The Minbet is required\n"
+        }
+        if(parseInt(conf_2D30_maxbet_field) < 0){
+            flag = false
+            msg += "The Maxbet is required\n"
+        }
+        if(parseFloat(conf_2D30_win_field) < 0){
+            flag = false
+            msg += "The Win is required\n"
+        }
+        
+        if(flag){
+            flag_btnsave = false;
+            css_loader = "display: inline-block;";
+            msgloader = "Sending...";
+            const res = await fetch("/api/companyconfsave", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    page:"COMPANY-SAVE",
+                    companyconf_id: idcompany,
+                    companyconf_2digit_30_time: parseInt(conf_2D30_time_field),
+                    companyconf_2digit_30_digit: parseInt(conf_2D30_digit_field),
+                    companyconf_2digit_30_minbet: parseInt(conf_2D30_minbet_field),
+                    companyconf_2digit_30_maxbet: parseInt(conf_2D30_maxbet_field),
+                    companyconf_2digit_30_win: parseFloat(conf_2D30_win_field),
+                    companyconf_2digit_30_status: conf_2D30_status_field,
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                flag_btnsave = true;
+                
+                msgloader = json.message;
+                call_conf(idcompany)
+            } else if(json.status == 403){
+                flag_btnsave = true;
+                alert(json.message)
+            } else {
+                flag_btnsave = true;
+                msgloader = json.message;
+            }
+            setTimeout(function () {
+                css_loader = "display: none;";
+            }, 1000);
+        }else{
+            alert(msg)
         }
     }
     //ENDCONF
@@ -1152,7 +1224,6 @@
     modal_footer_css="padding:5px;"
     modal_footer={true}>
     <slot:template slot="body">
-        
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -1170,7 +1241,7 @@
                                         bind:value={conf_2D30_time_field}
                                         input_tipe="number_standart"
                                         input_required="required"
-                                        input_maxlength="2"
+                                        input_maxlength="3"
                                         input_placeholder="Time"/>
                                 </div>
                                 <div class="mb-0">
@@ -1241,11 +1312,17 @@
                 </div>
             </div>
         </div>
+        <div class="mb-3">
+            <div class="alert alert-secondary" style="font-size: 11px; padding:10px;" role="alert">
+                Create : {conf_create_field}<br />
+                Update : {conf_update_field}
+            </div>
+        </div>
     </slot:template>
     <slot:template slot="footer">
         {#if flag_btnsave}
         <Button on:click={() => {
-                handleSave();
+                handleSave_conf();
             }} 
             button_function="SAVE"
             button_title="<i class='bi bi-save'></i>&nbsp;&nbsp;Save"

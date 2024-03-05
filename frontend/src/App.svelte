@@ -8,18 +8,6 @@
 	import Adminrule from "./pages/adminrule/Adminrule.svelte";
 	import Currency from "./pages/currency/Currency.svelte";
 	import Company from "./pages/company/Company.svelte";
-	import Employee from "./pages/employee/Employee.svelte";
-	import Departement from "./pages/departement/Departement.svelte";
-	import Catevendor from "./pages/catevendor/Catevendor.svelte";
-	import Vendor from "./pages/vendor/Vendor.svelte";
-	import Uom from "./pages/uom/Uom.svelte";
-	import Branch from "./pages/branch/Branch.svelte";
-	import Warehouse from "./pages/warehouse/Warehouse.svelte";
-	import Merek from "./pages/merek/Merek.svelte";
-	import Categoryitem from "./pages/categoryitem/Categoryitem.svelte";
-	import Purchaserequest from "./pages/purchaserequest/Purchaserequest.svelte";
-	import Rfq from "./pages/rfq/Rfq.svelte";
-	import Item from "./pages/item/Item.svelte";
 	import Login from "./pages/Login.svelte";
 	import NotFound from "./pages/NotFound.svelte";
 	export let table_header_font;
@@ -46,90 +34,6 @@
 			}),
 			"/company": wrap({
 				component: Company,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/rfq": wrap({
-				component: Rfq,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/merek": wrap({
-				component: Merek,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/purchaserequest": wrap({
-				component: Purchaserequest,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/employee": wrap({
-				component: Employee,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/departement": wrap({
-				component: Departement,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/catevendor": wrap({
-				component: Catevendor,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/vendor": wrap({
-				component: Vendor,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/item": wrap({
-				component: Item,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/categoryitem": wrap({
-				component: Categoryitem,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/listuom": wrap({
-				component: Uom,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/listbranch": wrap({
-				component: Branch,
-				props: {
-					table_header_font: table_header_font,
-					table_body_font: table_body_font,
-				},
-			}),
-			"/listwarehouse": wrap({
-				component: Warehouse,
 				props: {
 					table_header_font: table_header_font,
 					table_body_font: table_body_font,
