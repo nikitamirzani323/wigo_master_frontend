@@ -11,6 +11,11 @@
         let newstr = str.replace(" ","");
         return e.target.value = newstr.toUpperCase();
 	}
+    const handleKeyboard_lowercase = (e) => {
+        let str = e.target.value;
+        let newstr = str.replace(" ","");
+        return e.target.value = newstr.toLowerCase();
+	}
     const handleKeyboard_number_standart = (e) => {
         if (isNaN(parseInt(e.target.value))) {
             return e.target.value = "";
@@ -40,6 +45,16 @@
     <input 
         bind:value
         on:keyup={handleKeyboard_upppercase}
+        {disabled}
+        class="form-control {input_required}"
+        maxlength="{input_maxlength}"
+        type="text"
+        placeholder="{input_placeholder}"/>
+{/if}
+{#if input_tipe == "text_lowercase_trim"}
+    <input 
+        bind:value
+        on:keyup={handleKeyboard_lowercase}
         {disabled}
         class="form-control {input_required}"
         maxlength="{input_maxlength}"

@@ -18,6 +18,7 @@
 	let title_page = "COMPANY"
     let sData = "";
     let sDataadmin = "";
+    let sDataadminrule = "";
     let myModal_newentry = "";
     let myModal_admin = "";
     let flag_btnsave = true;
@@ -38,14 +39,29 @@
     let idrecord = "";
 
     //ADMIN
+    let flat_panel_active = "admin";
+    let flat_panel_admin = true;
+    let flat_panel_rule = false;
+    let css_panel_admin = "active";
+    let css_panel_rule = "";
     let listadmin = [];
+    let listadminrule = [];
+    let idadmincompany = 0;
+    let idadminrulecompany = 0;
     let idcompany = "";
+    let flag_admin_username_field = false;
+    let admin_rule_field = 0;
     let admin_username_field = "";
     let admin_password_field = "";
     let admin_name_field = "";
     let admin_status_field = "";
     let admin_create_field = "";
     let admin_update_field = "";
+
+    let adminrule_name_field = ""
+    let adminrule_rule_field = ""
+    let adminrule_create_field = ""
+    let adminrule_update_field = ""
 
     let pagingnow = 0;
     let searchHome = "";
@@ -226,35 +242,136 @@
         create_field = "";
         update_field = "";
     }
-    
+    function clearField_admin(){
+        flag_admin_username_field = false;
+        admin_username_field = "";
+        admin_password_field = "";
+        admin_name_field = "";
+        admin_status_field = "";
+        admin_create_field = "";
+        admin_update_field = "";
+    }
+    function clearField_adminrule(){
+        adminrule_name_field = ""
+        adminrule_rule_field = ""
+        adminrule_create_field = ""
+        adminrule_update_field = ""
+    }
+
     //ADMIN
+    const tab_admin = (e) => {
+        if(e == "admin"){
+            flat_panel_active = "admin"
+            css_panel_admin = "active";
+            css_panel_rule = "";
+            flat_panel_admin = true;
+            flat_panel_rule = false;
+            call_admin(idcompany)
+        }else{
+            flat_panel_active = "rule"
+            css_panel_admin = "";
+            css_panel_rule = "active";
+            flat_panel_admin = false;
+            flat_panel_rule = true;
+            call_adminrule(idcompany)
+        }
+    };
     const showAdmin = (e) => {
         idcompany = e
         call_admin(idcompany)
         myModal_admin = new bootstrap.Modal(document.getElementById("modal_companyadmin"));
         myModal_admin.show();
     };
-    const call_formadmin = (e) => {
-        sDataadmin = e
-        if(sDataadmin == "Edit"){
-            // storage_flag_id = true;
-            // bin_id_field = idbin;
-            // bin_iduom_field = iduom;
-            // bin_name_field = nmbin;
-            // bin_maxcapacity_field = max;
-            // bin_status_field = status;
-            // bin_create_field = create;
-            // bin_update_field = update;
-        }
+    const call_formadmin = (e,id,idrule,username,name,status,create,update) => {
+        if(flat_panel_active == "admin"){
+            sDataadmin = e
+            if(sDataadmin == "Edit"){
+                idadmincompany = id
+                admin_rule_field = idrule
+                flag_admin_username_field = true;
+                admin_username_field = username;
+                admin_name_field = name;
+                admin_status_field = status;
+                admin_create_field = create;
+                admin_update_field = update;
+            }else{
+                clearField_admin()
+            }
 
-        myModal_newentry = new bootstrap.Modal(document.getElementById("modal_crudcompanyadmin"));
-        myModal_newentry.show();
+            myModal_newentry = new bootstrap.Modal(document.getElementById("modal_crudcompanyadmin"));
+            myModal_newentry.show();
+        }else{
+            sDataadminrule = e
+            if(sDataadminrule == "Edit"){
+                idadminrulecompany = id
+                adminrule_name_field = name
+                adminrule_rule_field = idrule
+                adminrule_create_field = create
+                adminrule_update_field = update
+            }else{
+                clearField_adminrule()
+            }
+
+            myModal_newentry = new bootstrap.Modal(document.getElementById("modal_crudcompanyadminrule"));
+            myModal_newentry.show();
+        }
+        
         
     };
     
     async function call_admin(e) {
         listadmin = [];
+        listadminrule = [];
         const res = await fetch("/api/companyadmin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                companyadmin_idcompany: e,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            let record_listrule = json.listrule;
+            if (record != null) {
+                let no = 0;
+                for (var i = 0; i < record.length; i++) {
+                    no = no + 1;
+                    listadmin = [
+                        ...listadmin,
+                        {
+                            companyadmin_no: no,
+                            companyadmin_id: record[i]["companyadmin_id"],
+                            companyadmin_idrule: record[i]["companyadmin_idrule"],
+                            companyadmin_idcompany: record[i]["companyadmin_idcompany"],
+                            companyadmin_nmrule: record[i]["companyadmin_nmrule"],
+                            companyadmin_username: record[i]["companyadmin_username"],
+                            companyadmin_name: record[i]["companyadmin_name"],
+                            companyadmin_status: record[i]["companyadmin_status"],
+                            companyadmin_status_css: record[i]["companyadmin_status_css"],
+                            companyadmin_create: record[i]["companyadmin_create"],
+                            companyadmin_update: record[i]["companyadmin_update"],
+                        },
+                    ];
+                }
+            }
+            for (var i = 0; i < record_listrule.length; i++) {
+                listadminrule = [
+                    ...listadminrule,
+                    {
+                        companyadminrule_id: record_listrule[i]["companyadminrule_id"],
+                        companyadminrule_name: record_listrule[i]["companyadminrule_name"],
+                    },
+                ];
+            }
+        }
+    }
+    async function call_adminrule(e) {
+        listadminrule = [];
+        const res = await fetch("/api/companyadminrule", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -271,16 +388,15 @@
                 let no = 0;
                 for (var i = 0; i < record.length; i++) {
                     no = no + 1;
-                    listadmin = [
-                        ...listadmin,
+                    listadminrule = [
+                        ...listadminrule,
                         {
-                            itemshare_no: no,
-                            itemshare_id: record[i]["itemshare_id"],
-                            itemshare_nmcateitem: record[i]["itemshare_nmcateitem"],
-                            itemshare_name: record[i]["itemshare_name"],
-                            itemshare_descp: record[i]["itemshare_descp"],
-                            itemshare_urlimg: record[i]["itemshare_urlimg"],
-                            itemshare_uom: record[i]["itemshare_uom"],
+                            companyadminrule_no: no,
+                            companyadminrule_id: record[i]["companyadminrule_id"],
+                            companyadminrule_nmruleadmin: record[i]["companyadminrule_nmruleadmin"],
+                            companyadminrule_ruleadmin: record[i]["companyadminrule_ruleadmin"],
+                            companyadminrule_create: record[i]["companyadminrule_create"],
+                            companyadminrule_update: record[i]["companyadminrule_update"],
                         },
                     ];
                 }
@@ -291,6 +407,14 @@
         let flag = true
         let msg = ""
         if(sDataadmin == "New"){
+            if(idcompany == ""){
+                flag = false
+                msg += "The Company is required\n"
+            }
+            if(admin_rule_field == "" || admin_rule_field == 0){
+                flag = false
+                msg += "The Rule is required\n"
+            }
             if(admin_username_field == ""){
                 flag = false
                 msg += "The Userame is required\n"
@@ -322,31 +446,93 @@
             flag_btnsave = false;
             css_loader = "display: inline-block;";
             msgloader = "Sending...";
-            const res = await fetch("/api/warehousestoragebinsave", {
+            let username_send = idcompany.toLowerCase()+admin_username_field.toLowerCase()
+            const res = await fetch("/api/companyadminsave", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    sdata: sDataBin,
-                    page:"CURR-SAVE",
-                    storagebin_id: parseInt(admin_name_field),
-                    storagebin_idstorage: admin_name_field,
-                    storagebin_iduom: admin_name_field,
-                    storagebin_name: admin_name_field,
-                    storagebin_maxcapacity: admin_name_field,
-                    storagebin_status: admin_name_field,
+                    sdata: sDataadmin,
+                    page:"COMPANY-SAVE",
+                    companyadmin_id: parseInt(idadmincompany),
+                    companyadmin_idcompany: idcompany,
+                    companyadmin_idrule: parseInt(admin_rule_field),
+                    companyadmin_username: username_send,
+                    companyadmin_password: admin_password_field,
+                    companyadmin_name: admin_name_field,
+                    companyadmin_status: admin_status_field,
                 }),
             });
             const json = await res.json();
             if (json.status == 200) {
                 flag_btnsave = true;
-                if(sDataBin=="New"){
-                    clearField_bin()
+                if(sDataadmin=="New"){
+                    clearField_admin()
                 }
                 msgloader = json.message;
-                call_bin(bin_idstorage_field)
+                call_admin(idcompany)
+            } else if(json.status == 403){
+                flag_btnsave = true;
+                alert(json.message)
+            } else {
+                flag_btnsave = true;
+                msgloader = json.message;
+            }
+            setTimeout(function () {
+                css_loader = "display: none;";
+            }, 1000);
+        }else{
+            alert(msg)
+        }
+    }
+    async function handleSave_adminrule() {
+        let flag = true
+        let msg = ""
+        if(sDataadminrule == "New"){
+            if(idcompany == ""){
+                flag = false
+                msg += "The Company is required\n"
+            }
+            if(adminrule_name_field == ""){
+                flag = false
+                msg += "The Name is required\n"
+            }
+        }else{
+            if(adminrule_name_field == ""){
+                flag = false
+                msg += "The Name is required\n"
+            }
+        }
+        
+        if(flag){
+            flag_btnsave = false;
+            css_loader = "display: inline-block;";
+            msgloader = "Sending...";
+            const res = await fetch("/api/companyadminrulesave", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sDataadminrule,
+                    page:"COMPANYADMIN-SAVE",
+                    companyadminrule_id: parseInt(idadminrulecompany),
+                    companyadminrule_idcompany: idcompany,
+                    companyadminrule_nmruleadmin: adminrule_name_field,
+                    companyadminrule_ruleadmin: adminrule_rule_field.toString(),
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                flag_btnsave = true;
+                if(sDataadminrule=="New"){
+                    clearField_adminrule()
+                }
+                msgloader = json.message;
+                call_adminrule(idcompany)
             } else if(json.status == 403){
                 flag_btnsave = true;
                 alert(json.message)
@@ -660,61 +846,132 @@
     modal_title="ADMIN"
     modal_body_css="height:500px; overflow-y: scroll;"
     modal_footer_css="padding:5px;"
+    modal_search={true}
     modal_footer={true}>
+    <slot:template slot="search">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+              <span on:click={() => {
+                    tab_admin("admin");
+                }} class="nav-link {css_panel_admin}" style="cursor: pointer;" >Admin</span>
+            </li>
+            <li class="nav-item">
+              <span on:click={() => {
+                    tab_admin("rule");
+                }}  class="nav-link {css_panel_rule}" style="cursor: pointer;">Rule</span>
+            </li>
+        </ul>
+    </slot:template>
     <slot:template slot="body">
+        {#if flat_panel_admin}
         <table class="table table-sm">
             <thead>
                 <tr>
-                    <th width="1%" style="text-align: cener;vertical-align: top;font-weight:bold;font-size:{table_header_font};">STATUS</th>
+                    <th width="1%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">&nbsp;</th>
+                    <th width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">STATUS</th>
                     <th width="10%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">USERNAME</th>
+                    <th width="10%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">RULE</th>
                     <th width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NAME</th>
                 </tr>
             </thead>
             <tbody>
                 {#each listadmin as rec}
-                <tr style="cursor:pointer;" on:click={() => {
-                        handle_pilihitem(rec.itemshare_id,rec.itemshare_name,rec.itemshare_uom);
-                    }}>
-                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};text-decoration:underline;color:blue;">{rec.itemshare_id}</td>
-                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.itemshare_nmcateitem}</td>
-                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.itemshare_name}</td>
+                <tr>
+                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                        <i on:click={() => {
+                            //e,id,idrule,username,name,status,create,update
+                                call_formadmin("Edit",rec.companyadmin_id,rec.companyadmin_idrule,rec.companyadmin_username,
+                                rec.companyadmin_name,rec.companyadmin_status,rec.companyadmin_create,rec.companyadmin_update);
+                            }} class="bi bi-pencil"></i>
+                    </td>
+                    <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">
+                        <span style="padding: 5px;border-radius: 10px;padding-right:10px;padding-left:10px;{rec.companyadmin_status_css}">
+                            {status(rec.companyadmin_status)}
+                        </span>
+                    </td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.companyadmin_username}</td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.companyadmin_nmrule}</td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.companyadmin_name}</td>
                 </tr>
                 {/each}
             </tbody>
         </table>
+        {/if}
+        {#if flat_panel_rule}
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th width="1%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">&nbsp;</th>
+                    <th width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">RULE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each listadminrule as rec}
+                <tr>
+                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                        <i on:click={() => {
+                            //e,id,idrule,username,name,status,create,update
+                                call_formadmin("Edit",rec.companyadminrule_id,rec.companyadminrule_ruleadmin,
+                                "",rec.companyadminrule_nmruleadmin,"",rec.companyadminrule_create,rec.companyadminrule_update);
+                            }} class="bi bi-pencil"></i>
+                    </td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.companyadminrule_nmruleadmin}</td>
+                </tr>
+                {/each}
+            </tbody>
+        </table>
+        {/if}
     </slot:template>
     <slot:template slot="footer">
         <Button on:click={() => {
-                call_formadmin("New");
-            }} 
-            button_title="<i class='bi bi-plus-lg'></i>&nbsp;New"
-            button_css="btn-info"/>
+            call_formadmin("New");
+        }} 
+        button_title="<i class='bi bi-plus-lg'></i>&nbsp;New"
+        button_css="btn-info"/>
 	</slot:template>
 </Modal>
 <Modal
 	modal_id="modal_crudcompanyadmin"
 	modal_size="modal-dialog-centered "
-	modal_title="New Admin"
+	modal_title="{sDataadmin} Admin"
     modal_footer_css="padding:5px;"
 	modal_footer={true}>
 	<slot:template slot="body">
         <div class="mb-3">
+            <label for="exampleForm" class="form-label">Rule</label>
+            <select
+                bind:value="{admin_rule_field}" 
+                name="adminrule" id="adminrule" 
+                class="required form-control ">
+                <option value="">--Please Select--</option>
+                {#each listadminrule as rec}
+                <option value="{rec.companyadminrule_id}">{rec.companyadminrule_name}</option>
+                {/each}
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="exampleForm" class="form-label">Username</label>
-            <Input_custom
-                bind:value={admin_name_field}
-                input_tipe="text_standart"
-                input_required="required"
-                input_maxlength="50"
-                input_placeholder="Name"/>
+            <div class="input-group">
+                {#if sDataadmin == "New"}
+                <span class="input-group-text" id="basic-addon3">{idcompany.toLowerCase()}</span>
+                {/if}
+                <Input_custom
+                    bind:value={admin_username_field}
+                    input_tipe="text_lowercase_trim"
+                    input_required="required"
+                    input_maxlength="20"
+                    disabled={flag_admin_username_field}
+                    input_placeholder="Username"/>
+            </div>
         </div>
         <div class="mb-3">
             <label for="exampleForm" class="form-label">Password</label>
-            <Input_custom
+            <input
                 bind:value={admin_password_field}
-                input_tipe="text_standart"
-                input_required="required"
-                input_maxlength="50"
-                input_placeholder="Name"/>
+                type="password"
+                class="form-control "
+                placeholder="Password"
+                aria-label="Password"/>
         </div>
         <div class="mb-3">
             <label for="exampleForm" class="form-label">Name</label>
@@ -751,6 +1008,84 @@
                 handleSave_admin();
             }} 
             
+            button_title="<i class='bi bi-save'></i>&nbsp;&nbspSave"
+            button_css="btn-warning"/>
+        {/if}
+	</slot:template>
+</Modal>
+<Modal
+	modal_id="modal_crudcompanyadminrule"
+	modal_size="modal-dialog-centered "
+	modal_title="{sDataadminrule} Admin Rule"
+    modal_footer_css="padding:5px;"
+	modal_footer={true}>
+	<slot:template slot="body">
+        <div class="mb-3">
+            <label for="exampleForm" class="form-label">Rule</label>
+            <Input_custom
+                bind:value={adminrule_name_field}
+                input_tipe="text_standart"
+                input_required="required"
+                input_maxlength="50"
+                input_placeholder="Rule"/>
+        </div>
+        <div class="mb-3">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th colspan="2">ADMIN</th>
+                        <th colspan="2">CONFIG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td width="1%">
+                            <input bind:group={adminrule_rule_field}
+                                type="checkbox"
+                                value="COMPANYADMIN-VIEW"/>
+                        </td>
+                        <td width="*">VIEW</td>
+                        <td width="1%">
+                            <input bind:group={adminrule_rule_field}
+                                type="checkbox"
+                                value="COMPANYCONFIG-VIEW"/>
+                        </td>
+                        <td width="*">VIEW</td>
+                    </tr>
+                    <tr>
+                        <td width="1%">
+                            <input bind:group={adminrule_rule_field}
+                                type="checkbox"
+                                value="COMPANYADMIN-SAVE"/>
+                        </td>
+                        <td width="*">SAVE</td>
+                        <td width="1%">
+                            <input bind:group={adminrule_rule_field}
+                                type="checkbox"
+                                value="COMPANYCONFIG-SAVE"/>
+                        </td>
+                        <td width="*">SAVE</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        {#if sDataadminrule != "New"}
+            <div class="mb-3">
+                <div class="alert alert-secondary" style="font-size: 11px; padding:10px;" role="alert">
+                    Create : {adminrule_create_field}<br />
+                    Update : {adminrule_update_field}
+                </div>
+            </div>
+        {/if}
+       
+	</slot:template>
+	<slot:template slot="footer">
+        {#if flag_btnsave}
+            <Button on:click={() => {
+                    handleSave_adminrule();
+                }} 
             button_title="<i class='bi bi-save'></i>&nbsp;&nbspSave"
             button_css="btn-warning"/>
         {/if}

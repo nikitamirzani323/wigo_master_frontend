@@ -50,35 +50,12 @@
                             role="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false" style="font-size: 13px;">
-                            ITEM MANAGEMENT
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" use:link href="/merek" style="font-size: 13px;">MEREK MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/categoryitem" style="font-size: 13px;">CATEGORY ITEM MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/item" style="font-size: 13px;">ITEM MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/listbranch" style="font-size: 13px;">BRANCH MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/listwarehouse" style="font-size: 13px;">WAREHOUSE MANAGEMENT</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"
-                            id="navbarDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false" style="font-size: 13px;">
                             MASTER
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
                                 <a class="dropdown-item" use:link href="/company" style="font-size: 13px;">COMPANY</a>
-                                <a class="dropdown-item" use:link href="/departement" style="font-size: 13px;">DEPARTEMENT MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/employee" style="font-size: 13px;">EMPLOYEE MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/catevendor" style="font-size: 13px;">CATEGORY VENDOR MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/vendor" style="font-size: 13px;">VENDOR MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/currency" style="font-size: 13px;">CURRENCY MANAGEMENT</a>
-                                <a class="dropdown-item" use:link href="/listuom" style="font-size: 13px;">UOM MANAGEMENT</a>
+                                <a class="dropdown-item" use:link href="/currency" style="font-size: 13px;">CURRENCY</a>
                                 <a class="dropdown-item" use:link href="/admin" style="font-size: 13px;">ADMIN MANAGEMENT</a>
                                 <a class="dropdown-item" use:link href="/adminrule" style="font-size: 13px;">ADMIN RULE</a>
                             </li>
