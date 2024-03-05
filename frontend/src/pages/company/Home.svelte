@@ -63,6 +63,14 @@
     let adminrule_create_field = ""
     let adminrule_update_field = ""
 
+    let listconf = [];
+    let conf_2D30_time_field = 0;
+    let conf_2D30_digit_field = 0;
+    let conf_2D30_minbet_field = 0;
+    let conf_2D30_maxbet_field = 0;
+    let conf_2D30_win_field = 0;
+    let conf_2D30_status_field = "";
+
     let pagingnow = 0;
     let searchHome = "";
     let filterHome = [];
@@ -318,7 +326,6 @@
         
         
     };
-    
     async function call_admin(e) {
         listadmin = [];
         listadminrule = [];
@@ -548,6 +555,55 @@
         }
     }
     //ENDADMIN
+
+    //CONF
+    const showConf = (e) => {
+        idcompany = e
+        call_conf(idcompany)
+        myModal_admin = new bootstrap.Modal(document.getElementById("modal_companyconf"));
+        myModal_admin.show();
+    };
+    async function call_conf(e) {
+        listconf = [];
+        const res = await fetch("/api/companyconf", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                companyadmin_idcompany: e,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            if (record != null) {
+                let no = 0;
+                for (var i = 0; i < record.length; i++) {
+                    no = no + 1;
+                    listconf = [
+                        ...listconf,
+                        {
+                            companyadmin_no: no,
+                            companyadmin_id: record[i]["companyadmin_id"],
+                            companyadmin_idrule: record[i]["companyadmin_idrule"],
+                            companyadmin_idcompany: record[i]["companyadmin_idcompany"],
+                            companyadmin_nmrule: record[i]["companyadmin_nmrule"],
+                            companyadmin_username: record[i]["companyadmin_username"],
+                            companyadmin_name: record[i]["companyadmin_name"],
+                            companyadmin_status: record[i]["companyadmin_status"],
+                            companyadmin_status_css: record[i]["companyadmin_status_css"],
+                            companyadmin_create: record[i]["companyadmin_create"],
+                            companyadmin_update: record[i]["companyadmin_update"],
+                        },
+                    ];
+                }
+            }
+        }
+    }
+    //ENDCONF
+
     function callFunction(event){
         switch(event.detail){
             case "NEW":
@@ -661,11 +717,7 @@
                                     </td>
                                     <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
                                         <i on:click={() => {
-                                            //e,id,idcurr,name,owner,email,phone1,phone2,minfee,url1,url2,status,create,update
-                                                NewData("Edit",rec.home_id,rec.home_idcurr, rec.home_name,
-                                                rec.home_owner,rec.home_email,rec.home_hp1,rec.home_hp2,rec.home_minfee,
-                                                rec.home_url1,rec.home_url2,rec.home_status,
-                                                rec.home_create, rec.home_update);
+                                                showConf(rec.home_id);
                                             }} class="bi bi-gear"></i>
                                     </td>
                                     <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.home_no}</td>
@@ -1087,6 +1139,116 @@
                     handleSave_adminrule();
                 }} 
             button_title="<i class='bi bi-save'></i>&nbsp;&nbspSave"
+            button_css="btn-warning"/>
+        {/if}
+	</slot:template>
+</Modal>
+
+<Modal
+    modal_id="modal_companyconf"
+    modal_size="modal-dialog-centered modal-lg"
+    modal_title="CONFIGURE"
+    modal_body_css="height:500px; overflow-y: scroll;"
+    modal_footer_css="padding:5px;"
+    modal_footer={true}>
+    <slot:template slot="body">
+        
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Configure 2D 30S
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Time</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_time_field}
+                                        input_tipe="number_standart"
+                                        input_required="required"
+                                        input_maxlength="2"
+                                        input_placeholder="Time"/>
+                                </div>
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Digit</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_digit_field}
+                                        input_tipe="number_standart"
+                                        input_required="required"
+                                        input_maxlength="4"
+                                        input_placeholder="Digit"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">MinBet</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_minbet_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="10"
+                                        input_placeholder="MinBet"/>
+                                </div>
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">MaxBet</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_maxbet_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="510"
+                                        input_placeholder="MaxBet"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Win</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_win_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="5"
+                                        input_placeholder="Minimal Fee"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleForm" class="form-label">Status</label>
+                                    <select
+                                        class="form-control required"
+                                        bind:value={conf_2D30_status_field}>
+                                        <option value="">--Please Select--</option>
+                                        <option value="Y">ACTIVE</option>
+                                        <option value="N">DEACTIVE</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Accordion Item #2
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </slot:template>
+    <slot:template slot="footer">
+        {#if flag_btnsave}
+        <Button on:click={() => {
+                handleSave();
+            }} 
+            button_function="SAVE"
+            button_title="<i class='bi bi-save'></i>&nbsp;&nbsp;Save"
             button_css="btn-warning"/>
         {/if}
 	</slot:template>
