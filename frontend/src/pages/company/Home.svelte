@@ -63,12 +63,15 @@
     let adminrule_create_field = ""
     let adminrule_update_field = ""
 
+    let listmoney = [];
+    let money_credit_field = 0;
    
     let conf_2D30_time_field = 0;
     let conf_2D30_digit_field = 0;
     let conf_2D30_minbet_field = 0;
     let conf_2D30_maxbet_field = 0;
     let conf_2D30_win_field = 0;
+    let conf_2D30_maintenance_field = "";
     let conf_2D30_status_field = "";
     let conf_create_field = "";
     let conf_update_field = "";
@@ -568,6 +571,141 @@
     }
     //ENDADMIN
 
+
+    //MONEY
+    const showMoney = (e) => {
+        idcompany = e
+        call_money(idcompany)
+        myModal_admin = new bootstrap.Modal(document.getElementById("modal_companymoney"));
+        myModal_admin.show();
+    };
+    async function call_money(e) {
+        listmoney = [];
+        const res = await fetch("/api/companymoney", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                companyadmin_idcompany: e,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            if (record != null) {
+                let no = 0;
+                for (var i = 0; i < record.length; i++) {
+                    no = no + 1;
+                    listmoney = [
+                        ...listmoney,
+                        {
+                            companymoney_no: no,
+                            companymoney_id: record[i]["companymoney_id"],
+                            companymoney_money: record[i]["companymoney_money"],
+                        },
+                    ];
+                }
+            }
+        }
+    }
+    async function handleSave_money() {
+        let flag = true
+        let msg = ""
+        if(idcompany == ""){
+            flag = false
+            msg += "The Company is required\n"
+        }
+        if(parseInt(money_credit_field) < 0){
+            flag = false
+            msg += "The Credit is required\n"
+        }
+       
+        
+        if(flag){
+            flag_btnsave = false;
+            css_loader = "display: inline-block;";
+            msgloader = "Sending...";
+            const res = await fetch("/api/companymoneysave", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: "New",
+                    page:"COMPANY-SAVE",
+                    companymoney_idcompany: idcompany,
+                    companymoney_money: parseInt(money_credit_field),
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                flag_btnsave = true;
+                money_credit_field = 0
+                msgloader = json.message;
+                call_money(idcompany)
+            } else if(json.status == 403){
+                flag_btnsave = true;
+                alert(json.message)
+            } else {
+                flag_btnsave = true;
+                msgloader = json.message;
+            }
+            setTimeout(function () {
+                css_loader = "display: none;";
+            }, 1000);
+        }else{
+            alert(msg)
+        }
+    }
+    async function handleDelete_money(e) {
+        let flag = true
+        let msg = ""
+        if(idcompany == ""){
+            flag = false
+            msg += "The Company is required\n"
+        }
+       
+        if(flag){
+            flag_btnsave = false;
+            css_loader = "display: inline-block;";
+            msgloader = "Sending...";
+            const res = await fetch("/api/companymoneydelete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: "New",
+                    page:"COMPANY-SAVE",
+                    companymoney_id: parseInt(e),
+                    companymoney_idcompany: idcompany,
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                flag_btnsave = true;
+                msgloader = json.message;
+                call_money(idcompany)
+            } else if(json.status == 403){
+                flag_btnsave = true;
+                alert(json.message)
+            } else {
+                flag_btnsave = true;
+                msgloader = json.message;
+            }
+            setTimeout(function () {
+                css_loader = "display: none;";
+            }, 1000);
+        }else{
+            alert(msg)
+        }
+    }
+    //ENDMONEY
+
     //CONF
     const showConf = (e) => {
         clearField_conf()
@@ -597,6 +735,7 @@
                     conf_2D30_minbet_field = parseInt(record[i]["companyconf_2digit_30_minbet"]);
                     conf_2D30_maxbet_field = parseInt(record[i]["companyconf_2digit_30_maxbet"]);
                     conf_2D30_win_field = parseInt(record[i]["companyconf_2digit_30_win"]);
+                    conf_2D30_maintenance_field = record[i]["companyconf_2digit_30_maintenance"];
                     conf_2D30_status_field = record[i]["companyconf_2digit_30_status"];
                     conf_create_field = record[i]["companyconf_create"];
                     conf_update_field = record[i]["companyconf_update"];
@@ -651,6 +790,7 @@
                     companyconf_2digit_30_minbet: parseInt(conf_2D30_minbet_field),
                     companyconf_2digit_30_maxbet: parseInt(conf_2D30_maxbet_field),
                     companyconf_2digit_30_win: parseFloat(conf_2D30_win_field),
+                    companyconf_2digit_30_maintenance: conf_2D30_maintenance_field,
                     companyconf_2digit_30_status: conf_2D30_status_field,
                 }),
             });
@@ -761,7 +901,7 @@
                     <table class="table table-striped ">
                         <thead>
                             <tr>
-                                <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" colspan=3>&nbsp;</th>
+                                <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" colspan=4>&nbsp;</th>
                                 <th NOWRAP width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NO</th>
                                 <th NOWRAP width="2%" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">STATUS</th>
                                 <th NOWRAP width="5%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">CODE</th>
@@ -786,6 +926,11 @@
                                         <i on:click={() => {
                                                 showAdmin(rec.home_id);
                                             }} class="bi bi-person"></i>
+                                    </td>
+                                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                                        <i on:click={() => {
+                                                showMoney(rec.home_id);
+                                            }} class="bi bi-coin"></i>
                                     </td>
                                     <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
                                         <i on:click={() => {
@@ -1236,7 +1381,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-0">
-                                    <label for="exampleForm" class="form-label">Time</label>
+                                    <label for="exampleForm" class="form-label">Time (s)</label>
                                     <Input_custom
                                         bind:value={conf_2D30_time_field}
                                         input_tipe="number_standart"
@@ -1285,6 +1430,16 @@
                                         input_placeholder="Minimal Fee"/>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="exampleForm" class="form-label">Maintenance</label>
+                                    <select
+                                        class="form-control required"
+                                        bind:value={conf_2D30_maintenance_field}>
+                                        <option value="">--Please Select--</option>
+                                        <option value="Y">ACTIVE</option>
+                                        <option value="N">DEACTIVE</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="exampleForm" class="form-label">Status</label>
                                     <select
                                         class="form-control required"
@@ -1312,7 +1467,7 @@
                 </div>
             </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-3 mt-4">
             <div class="alert alert-secondary" style="font-size: 11px; padding:10px;" role="alert">
                 Create : {conf_create_field}<br />
                 Update : {conf_update_field}
@@ -1328,5 +1483,57 @@
             button_title="<i class='bi bi-save'></i>&nbsp;&nbsp;Save"
             button_css="btn-warning"/>
         {/if}
+	</slot:template>
+</Modal>
+
+<Modal
+    modal_id="modal_companymoney"
+    modal_size="modal-dialog-centered "
+    modal_title="CREDIT"
+    modal_body_css="height:500px; overflow-y: scroll;"
+    modal_footer_css="padding:5px;"
+    modal_footer={false}>
+    <slot:template slot="body">
+        <div class="row g-2">
+            <div class="col-auto">
+                <label for="exampleForm" class="visually-hidden">Credit</label>
+                <Input_custom
+                    bind:value={money_credit_field}
+                    input_tipe="number_float"
+                    input_required="required"
+                    input_maxlength="10"
+                    input_placeholder="MinBet"/>
+            </div>
+            <div class="col-auto ">
+                <Button on:click={() => {
+                        handleSave_money();
+                    }} 
+                    button_title="<i class='bi bi-save'></i>&nbsp;&nbspSave"
+                    button_css="btn-warning mt-1"/>
+            </div>
+        </div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th width="1%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">&nbsp;</th>
+                    <th width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">CREDIT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#each listmoney as rec}
+                <tr>
+                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                        <i on:click={() => {
+                            handleDelete_money(rec.companymoney_id,);
+                            }} class="bi bi-trash3"></i>
+                    </td>
+                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{new Intl.NumberFormat().format(rec.companymoney_money)}</td>
+                </tr>
+                {/each}
+            </tbody>
+        </table>
+    </slot:template>
+    <slot:template slot="footer">
+        
 	</slot:template>
 </Modal>
