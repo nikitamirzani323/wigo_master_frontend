@@ -701,6 +701,7 @@ func CompanyconfSave(c *fiber.Ctx) error {
 		Companyconf_2digit_30_minbet      int     `json:"companyconf_2digit_30_minbet" `
 		Companyconf_2digit_30_maxbet      int     `json:"companyconf_2digit_30_maxbet" `
 		Companyconf_2digit_30_win         float64 `json:"companyconf_2digit_30_win" `
+		Companyconf_2digit_30_operator    string  `json:"companyconf_2digit_30_operator" `
 		Companyconf_2digit_30_maintenance string  `json:"companyconf_2digit_30_maintenance" `
 		Companyconf_2digit_30_status      string  `json:"companyconf_2digit_30_status" `
 	}
@@ -734,6 +735,7 @@ func CompanyconfSave(c *fiber.Ctx) error {
 			"companyconf_2digit_30_minbet":      client.Companyconf_2digit_30_minbet,
 			"companyconf_2digit_30_maxbet":      client.Companyconf_2digit_30_maxbet,
 			"companyconf_2digit_30_win":         client.Companyconf_2digit_30_win,
+			"companyconf_2digit_30_operator":    client.Companyconf_2digit_30_operator,
 			"companyconf_2digit_30_maintenance": client.Companyconf_2digit_30_maintenance,
 			"companyconf_2digit_30_status":      client.Companyconf_2digit_30_status,
 		}).

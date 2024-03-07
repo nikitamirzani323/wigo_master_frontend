@@ -71,6 +71,7 @@
     let conf_2D30_minbet_field = 0;
     let conf_2D30_maxbet_field = 0;
     let conf_2D30_win_field = 0;
+    let conf_2D30_operator_field = "";
     let conf_2D30_maintenance_field = "";
     let conf_2D30_status_field = "";
     let conf_create_field = "";
@@ -276,6 +277,8 @@
         conf_2D30_minbet_field = 0;
         conf_2D30_maxbet_field = 0;
         conf_2D30_win_field = 0;
+        conf_2D30_operator_field = "";
+        conf_2D30_maintenance_field = "";
         conf_2D30_status_field = "";
         conf_create_field = "";
         conf_update_field = "";
@@ -735,6 +738,7 @@
                     conf_2D30_minbet_field = parseInt(record[i]["companyconf_2digit_30_minbet"]);
                     conf_2D30_maxbet_field = parseInt(record[i]["companyconf_2digit_30_maxbet"]);
                     conf_2D30_win_field = parseInt(record[i]["companyconf_2digit_30_win"]);
+                    conf_2D30_operator_field = record[i]["companyconf_2digit_30_operator"];
                     conf_2D30_maintenance_field = record[i]["companyconf_2digit_30_maintenance"];
                     conf_2D30_status_field = record[i]["companyconf_2digit_30_status"];
                     conf_create_field = record[i]["companyconf_create"];
@@ -790,6 +794,7 @@
                     companyconf_2digit_30_minbet: parseInt(conf_2D30_minbet_field),
                     companyconf_2digit_30_maxbet: parseInt(conf_2D30_maxbet_field),
                     companyconf_2digit_30_win: parseFloat(conf_2D30_win_field),
+                    companyconf_2digit_30_operator: conf_2D30_operator_field,
                     companyconf_2digit_30_maintenance: conf_2D30_maintenance_field,
                     companyconf_2digit_30_status: conf_2D30_status_field,
                 }),
@@ -1428,6 +1433,16 @@
                                         input_required="required"
                                         input_maxlength="5"
                                         input_placeholder="Minimal Fee"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleForm" class="form-label">Operator</label>
+                                    <select
+                                        class="form-control required"
+                                        bind:value={conf_2D30_operator_field}>
+                                        <option value="">--Please Select--</option>
+                                        <option value="Y">ACTIVE</option>
+                                        <option value="N">DEACTIVE</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleForm" class="form-label">Maintenance</label>
