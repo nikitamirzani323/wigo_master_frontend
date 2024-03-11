@@ -694,16 +694,19 @@ func CompanymoneyDelete(c *fiber.Ctx) error {
 }
 func CompanyconfSave(c *fiber.Ctx) error {
 	type payload_companyconfsave struct {
-		Page                              string  `json:"page"`
-		Companyconf_id                    string  `json:"companyconf_id" `
-		Companyconf_2digit_30_time        int     `json:"companyconf_2digit_30_time" `
-		Companyconf_2digit_30_digit       int     `json:"companyconf_2digit_30_digit" `
-		Companyconf_2digit_30_minbet      int     `json:"companyconf_2digit_30_minbet" `
-		Companyconf_2digit_30_maxbet      int     `json:"companyconf_2digit_30_maxbet" `
-		Companyconf_2digit_30_win         float64 `json:"companyconf_2digit_30_win" `
-		Companyconf_2digit_30_operator    string  `json:"companyconf_2digit_30_operator" `
-		Companyconf_2digit_30_maintenance string  `json:"companyconf_2digit_30_maintenance" `
-		Companyconf_2digit_30_status      string  `json:"companyconf_2digit_30_status" `
+		Page                                       string  `json:"page"`
+		Companyconf_id                             string  `json:"companyconf_id" `
+		Companyconf_2digit_30_time                 int     `json:"companyconf_2digit_30_time" `
+		Companyconf_2digit_30_digit                int     `json:"companyconf_2digit_30_digit" `
+		Companyconf_2digit_30_minbet               int     `json:"companyconf_2digit_30_minbet" `
+		Companyconf_2digit_30_maxbet               int     `json:"companyconf_2digit_30_maxbet" `
+		Companyconf_2digit_30_win                  float64 `json:"companyconf_2digit_30_win" `
+		Companyconf_2digit_30_win_redblack         float64 `json:"companyconf_2digit_30_win_redblack" `
+		Companyconf_2digit_30_win_line             float64 `json:"companyconf_2digit_30_win_line" `
+		Companyconf_2digit_30_status_redblack_line string  `json:"companyconf_2digit_30_status_redblack_line" `
+		Companyconf_2digit_30_operator             string  `json:"companyconf_2digit_30_operator" `
+		Companyconf_2digit_30_maintenance          string  `json:"companyconf_2digit_30_maintenance" `
+		Companyconf_2digit_30_status               string  `json:"companyconf_2digit_30_status" `
 	}
 	hostname := c.Hostname()
 	bearToken := c.Get("Authorization")
@@ -727,17 +730,20 @@ func CompanyconfSave(c *fiber.Ctx) error {
 		SetError(responseerror{}).
 		SetHeader("Content-Type", "application/json").
 		SetBody(map[string]interface{}{
-			"client_hostname":                   hostname,
-			"page":                              client.Page,
-			"companyconf_id":                    client.Companyconf_id,
-			"companyconf_2digit_30_time":        client.Companyconf_2digit_30_time,
-			"companyconf_2digit_30_digit":       client.Companyconf_2digit_30_digit,
-			"companyconf_2digit_30_minbet":      client.Companyconf_2digit_30_minbet,
-			"companyconf_2digit_30_maxbet":      client.Companyconf_2digit_30_maxbet,
-			"companyconf_2digit_30_win":         client.Companyconf_2digit_30_win,
-			"companyconf_2digit_30_operator":    client.Companyconf_2digit_30_operator,
-			"companyconf_2digit_30_maintenance": client.Companyconf_2digit_30_maintenance,
-			"companyconf_2digit_30_status":      client.Companyconf_2digit_30_status,
+			"client_hostname":                            hostname,
+			"page":                                       client.Page,
+			"companyconf_id":                             client.Companyconf_id,
+			"companyconf_2digit_30_time":                 client.Companyconf_2digit_30_time,
+			"companyconf_2digit_30_digit":                client.Companyconf_2digit_30_digit,
+			"companyconf_2digit_30_minbet":               client.Companyconf_2digit_30_minbet,
+			"companyconf_2digit_30_maxbet":               client.Companyconf_2digit_30_maxbet,
+			"companyconf_2digit_30_win":                  client.Companyconf_2digit_30_win,
+			"companyconf_2digit_30_win_redblack":         client.Companyconf_2digit_30_win_redblack,
+			"companyconf_2digit_30_win_line":             client.Companyconf_2digit_30_win_line,
+			"companyconf_2digit_30_status_redblack_line": client.Companyconf_2digit_30_status_redblack_line,
+			"companyconf_2digit_30_operator":             client.Companyconf_2digit_30_operator,
+			"companyconf_2digit_30_maintenance":          client.Companyconf_2digit_30_maintenance,
+			"companyconf_2digit_30_status":               client.Companyconf_2digit_30_status,
 		}).
 		Post(PATH + "api/companyconfsave")
 	if err != nil {

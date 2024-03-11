@@ -71,6 +71,9 @@
     let conf_2D30_minbet_field = 0;
     let conf_2D30_maxbet_field = 0;
     let conf_2D30_win_field = 0;
+    let conf_2D30_win_redblack_field = 0;
+    let conf_2D30_win_line_field = 0;
+    let conf_2D30_status_redblack_line_field = "";
     let conf_2D30_operator_field = "";
     let conf_2D30_maintenance_field = "";
     let conf_2D30_status_field = "";
@@ -277,6 +280,9 @@
         conf_2D30_minbet_field = 0;
         conf_2D30_maxbet_field = 0;
         conf_2D30_win_field = 0;
+        conf_2D30_win_redblack_field = 0;
+        conf_2D30_win_line_field = 0;
+        conf_2D30_status_redblack_line_field = "";
         conf_2D30_operator_field = "";
         conf_2D30_maintenance_field = "";
         conf_2D30_status_field = "";
@@ -738,12 +744,14 @@
                     conf_2D30_minbet_field = parseInt(record[i]["companyconf_2digit_30_minbet"]);
                     conf_2D30_maxbet_field = parseInt(record[i]["companyconf_2digit_30_maxbet"]);
                     conf_2D30_win_field = parseInt(record[i]["companyconf_2digit_30_win"]);
+                    conf_2D30_win_redblack_field = parseFloat(record[i]["companyconf_2digit_30_redblack"]);
+                    conf_2D30_win_line_field = parseFloat(record[i]["companyconf_2digit_30_line"]);
+                    conf_2D30_status_redblack_line_field = record[i]["companyconf_2digit_30_status_redblack_line"];
                     conf_2D30_operator_field = record[i]["companyconf_2digit_30_operator"];
                     conf_2D30_maintenance_field = record[i]["companyconf_2digit_30_maintenance"];
                     conf_2D30_status_field = record[i]["companyconf_2digit_30_status"];
                     conf_create_field = record[i]["companyconf_create"];
                     conf_update_field = record[i]["companyconf_update"];
-                   
                 }
             }
         }
@@ -794,6 +802,9 @@
                     companyconf_2digit_30_minbet: parseInt(conf_2D30_minbet_field),
                     companyconf_2digit_30_maxbet: parseInt(conf_2D30_maxbet_field),
                     companyconf_2digit_30_win: parseFloat(conf_2D30_win_field),
+                    companyconf_2digit_30_win_redblack: parseFloat(conf_2D30_win_redblack_field),
+                    companyconf_2digit_30_win_line: parseFloat(conf_2D30_win_line_field),
+                    companyconf_2digit_30_status_redblack_line: conf_2D30_status_redblack_line_field,
                     companyconf_2digit_30_operator: conf_2D30_operator_field,
                     companyconf_2digit_30_maintenance: conf_2D30_maintenance_field,
                     companyconf_2digit_30_status: conf_2D30_status_field,
@@ -1384,7 +1395,7 @@
                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-0">
                                     <label for="exampleForm" class="form-label">Time (s)</label>
                                     <Input_custom
@@ -1404,7 +1415,7 @@
                                         input_placeholder="Digit"/>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-0">
                                     <label for="exampleForm" class="form-label">MinBet</label>
                                     <Input_custom
@@ -1424,7 +1435,7 @@
                                         input_placeholder="MaxBet"/>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="mb-0">
                                     <label for="exampleForm" class="form-label">Win</label>
                                     <Input_custom
@@ -1432,7 +1443,37 @@
                                         input_tipe="number_float"
                                         input_required="required"
                                         input_maxlength="5"
-                                        input_placeholder="Minimal Fee"/>
+                                        input_placeholder="Win"/>
+                                </div>
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Win RedBlack</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_win_redblack_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="5"
+                                        input_placeholder="Win RedBlack"/>
+                                </div>
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Win Line</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_win_line_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="5"
+                                        input_placeholder="Win Line"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="exampleForm" class="form-label">RedBlack Line</label>
+                                    <select
+                                        class="form-control required"
+                                        bind:value={conf_2D30_status_redblack_line_field}>
+                                        <option value="">--Please Select--</option>
+                                        <option value="Y">ACTIVE</option>
+                                        <option value="N">DEACTIVE</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleForm" class="form-label">Operator</label>
