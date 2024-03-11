@@ -832,6 +832,16 @@
     }
     //ENDCONF
 
+
+    //INVOICE
+    const showInvoice = (e) => {
+        
+        idcompany = e
+        myModal_admin = new bootstrap.Modal(document.getElementById("modal_companyinvoice"));
+        myModal_admin.show();
+    };
+    //ENDINVOICE
+
     function callFunction(event){
         switch(event.detail){
             case "NEW":
@@ -917,7 +927,7 @@
                     <table class="table table-striped ">
                         <thead>
                             <tr>
-                                <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" colspan=4>&nbsp;</th>
+                                <th NOWRAP width="1%" style="text-align: center;vertical-align: top;" colspan=5>&nbsp;</th>
                                 <th NOWRAP width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NO</th>
                                 <th NOWRAP width="2%" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">STATUS</th>
                                 <th NOWRAP width="5%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">CODE</th>
@@ -952,6 +962,11 @@
                                         <i on:click={() => {
                                                 showConf(rec.home_id);
                                             }} class="bi bi-gear"></i>
+                                    </td>
+                                    <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
+                                        <i on:click={() => {
+                                                showInvoice(rec.home_id);
+                                            }} class="bi bi-file-earmark"></i>
                                     </td>
                                     <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.home_no}</td>
                                     <td NOWRAP  style="text-align: center;vertical-align: top;font-size: 11px;">
@@ -1319,6 +1334,7 @@
                 <thead>
                     <tr>
                         <th colspan="2">ADMIN</th>
+                        <th colspan="2">DASHBOARD</th>
                         <th colspan="2">CONFIG</th>
                     </tr>
                 </thead>
@@ -1333,6 +1349,12 @@
                         <td width="1%">
                             <input bind:group={adminrule_rule_field}
                                 type="checkbox"
+                                value="COMPANYDASHBOARD-VIEW"/>
+                        </td>
+                        <td width="*">VIEW</td>
+                        <td width="1%">
+                            <input bind:group={adminrule_rule_field}
+                                type="checkbox"
                                 value="COMPANYCONFIG-VIEW"/>
                         </td>
                         <td width="*">VIEW</td>
@@ -1342,6 +1364,12 @@
                             <input bind:group={adminrule_rule_field}
                                 type="checkbox"
                                 value="COMPANYADMIN-SAVE"/>
+                        </td>
+                        <td width="*">SAVE</td>
+                        <td width="1%">
+                            <input bind:group={adminrule_rule_field}
+                                type="checkbox"
+                                value="COMPANYDASHBOARD-SAVE"/>
                         </td>
                         <td width="*">SAVE</td>
                         <td width="1%">
@@ -1588,6 +1616,21 @@
                 {/each}
             </tbody>
         </table>
+    </slot:template>
+    <slot:template slot="footer">
+        
+	</slot:template>
+</Modal>
+
+<Modal
+    modal_id="modal_companyinvoice"
+    modal_size="modal-dialog-centered modal-lg"
+    modal_title="INVOICE"
+    modal_body_css="height:500px; overflow-y: scroll;"
+    modal_footer_css="padding:5px;"
+    modal_footer={false}>
+    <slot:template slot="body">
+        
     </slot:template>
     <slot:template slot="footer">
         
