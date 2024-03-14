@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -50,7 +51,7 @@ func Companyhome(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -65,17 +66,17 @@ func Companyhome(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/company")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*response_company)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -113,7 +114,7 @@ func Companyadminhome(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -127,17 +128,17 @@ func Companyadminhome(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companyadmin")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*response_companyadmin)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -173,7 +174,7 @@ func Companyadminrulehome(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -187,17 +188,17 @@ func Companyadminrulehome(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companyadminrule")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*response_companyadminrule)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -232,7 +233,7 @@ func Companymoneyhome(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -246,17 +247,17 @@ func Companymoneyhome(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companymoney")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*response_companyadminrule)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -291,7 +292,7 @@ func Companyconfhome(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -305,17 +306,17 @@ func Companyconfhome(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companyconf")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*response_companyadminrule)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -364,7 +365,7 @@ func CompanySave(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -392,17 +393,17 @@ func CompanySave(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companysave")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -445,7 +446,7 @@ func CompanyadminSave(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -467,17 +468,17 @@ func CompanyadminSave(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companyadminsave")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -517,7 +518,7 @@ func CompanyadminruleSave(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -536,17 +537,17 @@ func CompanyadminruleSave(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companyadminrulesave")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -584,7 +585,7 @@ func CompanymoneySave(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -601,17 +602,17 @@ func CompanymoneySave(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companymoneysave")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -648,7 +649,7 @@ func CompanymoneyDelete(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Println("Hostname: ", hostname)
+	fmt.Println("Hostname: ", hostname)
 	render_page := time.Now()
 	axios := resty.New()
 	resp, err := axios.R().
@@ -664,17 +665,17 @@ func CompanymoneyDelete(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companymoneydelete")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -747,17 +748,17 @@ func CompanyconfSave(c *fiber.Ctx) error {
 		}).
 		Post(PATH + "api/companyconfsave")
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
