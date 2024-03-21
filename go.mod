@@ -1,4 +1,4 @@
-module github.com/nikitamirzani323/WIGO_MASTER_FRONTEND
+module bitbucket.org/isbtotogroup/wigo_master_frontend
 
 go 1.17
 

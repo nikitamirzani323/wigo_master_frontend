@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
+	"bitbucket.org/isbtotogroup/wigo_master_frontend/configs"
+	"bitbucket.org/isbtotogroup/wigo_master_frontend/entities"
 	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
-	"github.com/nikitamirzani323/WIGO_MASTER_FRONTEND/configs"
-	"github.com/nikitamirzani323/WIGO_MASTER_FRONTEND/entities"
 )
 
 type responseinit struct {
