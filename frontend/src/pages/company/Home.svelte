@@ -73,6 +73,8 @@
     let conf_2D30_win_field = 0;
     let conf_2D30_win_redblack_field = 0;
     let conf_2D30_win_line_field = 0;
+    let conf_2D30_win_zona_field = 0;
+    let conf_2D30_win_jackpot_field = 0;
     let conf_2D30_status_redblack_line_field = "";
     let conf_2D30_operator_field = "";
     let conf_2D30_maintenance_field = "";
@@ -744,8 +746,10 @@
                     conf_2D30_minbet_field = parseInt(record[i]["companyconf_2digit_30_minbet"]);
                     conf_2D30_maxbet_field = parseInt(record[i]["companyconf_2digit_30_maxbet"]);
                     conf_2D30_win_field = parseInt(record[i]["companyconf_2digit_30_win"]);
-                    conf_2D30_win_redblack_field = parseFloat(record[i]["companyconf_2digit_30_redblack"]);
-                    conf_2D30_win_line_field = parseFloat(record[i]["companyconf_2digit_30_line"]);
+                    conf_2D30_win_redblack_field = parseFloat(record[i]["companyconf_2digit_30_win_redblack"]);
+                    conf_2D30_win_line_field = parseFloat(record[i]["companyconf_2digit_30_win_line"]);
+                    conf_2D30_win_zona_field = parseFloat(record[i]["companyconf_2digit_30_win_zona"]);
+                    conf_2D30_win_jackpot_field = parseFloat(record[i]["companyconf_2digit_30_win_jackpot"]);
                     conf_2D30_status_redblack_line_field = record[i]["companyconf_2digit_30_status_redblack_line"];
                     conf_2D30_operator_field = record[i]["companyconf_2digit_30_operator"];
                     conf_2D30_maintenance_field = record[i]["companyconf_2digit_30_maintenance"];
@@ -804,6 +808,8 @@
                     companyconf_2digit_30_win: parseFloat(conf_2D30_win_field),
                     companyconf_2digit_30_win_redblack: parseFloat(conf_2D30_win_redblack_field),
                     companyconf_2digit_30_win_line: parseFloat(conf_2D30_win_line_field),
+                    companyconf_2digit_30_win_zona: parseFloat(conf_2D30_win_zona_field),
+                    companyconf_2digit_30_win_jackpot: parseFloat(conf_2D30_win_jackpot_field),
                     companyconf_2digit_30_status_redblack_line: conf_2D30_status_redblack_line_field,
                     companyconf_2digit_30_operator: conf_2D30_operator_field,
                     companyconf_2digit_30_maintenance: conf_2D30_maintenance_field,
@@ -1465,7 +1471,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="mb-0">
-                                    <label for="exampleForm" class="form-label">Win</label>
+                                    <label for="exampleForm" class="form-label">Win Angka</label>
                                     <Input_custom
                                         bind:value={conf_2D30_win_field}
                                         input_tipe="number_float"
@@ -1490,6 +1496,24 @@
                                         input_required="required"
                                         input_maxlength="5"
                                         input_placeholder="Win Line"/>
+                                </div>
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Win Zona</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_win_zona_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="5"
+                                        input_placeholder="Win Zona"/>
+                                </div>
+                                <div class="mb-0">
+                                    <label for="exampleForm" class="form-label">Win Jackpot</label>
+                                    <Input_custom
+                                        bind:value={conf_2D30_win_jackpot_field}
+                                        input_tipe="number_float"
+                                        input_required="required"
+                                        input_maxlength="5"
+                                        input_placeholder="Win Zona"/>
                                 </div>
                             </div>
                             <div class="col-md-3">

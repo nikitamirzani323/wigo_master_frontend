@@ -704,6 +704,8 @@ func CompanyconfSave(c *fiber.Ctx) error {
 		Companyconf_2digit_30_win                  float64 `json:"companyconf_2digit_30_win" `
 		Companyconf_2digit_30_win_redblack         float64 `json:"companyconf_2digit_30_win_redblack" `
 		Companyconf_2digit_30_win_line             float64 `json:"companyconf_2digit_30_win_line" `
+		Companyconf_2digit_30_win_zona             float64 `json:"companyconf_2digit_30_win_zona" `
+		Companyconf_2digit_30_win_jackpot          float64 `json:"companyconf_2digit_30_win_jackpot" `
 		Companyconf_2digit_30_status_redblack_line string  `json:"companyconf_2digit_30_status_redblack_line" `
 		Companyconf_2digit_30_operator             string  `json:"companyconf_2digit_30_operator" `
 		Companyconf_2digit_30_maintenance          string  `json:"companyconf_2digit_30_maintenance" `
@@ -741,6 +743,8 @@ func CompanyconfSave(c *fiber.Ctx) error {
 			"companyconf_2digit_30_win":                  client.Companyconf_2digit_30_win,
 			"companyconf_2digit_30_win_redblack":         client.Companyconf_2digit_30_win_redblack,
 			"companyconf_2digit_30_win_line":             client.Companyconf_2digit_30_win_line,
+			"companyconf_2digit_30_win_zona":             client.Companyconf_2digit_30_win_zona,
+			"companyconf_2digit_30_win_jackpot":          client.Companyconf_2digit_30_win_jackpot,
 			"companyconf_2digit_30_status_redblack_line": client.Companyconf_2digit_30_status_redblack_line,
 			"companyconf_2digit_30_operator":             client.Companyconf_2digit_30_operator,
 			"companyconf_2digit_30_maintenance":          client.Companyconf_2digit_30_maintenance,
