@@ -45,22 +45,34 @@
             
         }
     }
+    // async function initTimezone() {
+    //     const res = await fetch("https://ipinfo.io/json?token=0d10fdc946df5a");
+    //     if(res.status == 200){
+    //         if (!res.ok) {
+    //             const message = `An error has occured: ${res.status}`;
+    //             throw new Error(message);
+    //         } else {
+    //             const json = await res.json();
+    //             client_ipaddress = json.ip;
+    //             client_timezone = json.timezone;
+    //         }
+    //     }else{
+    //         client_ipaddress = "111.111.111.111";
+    //         client_timezone = "Asia/Jakarta";
+    //     }
+        
+    // }
     async function initTimezone() {
-        const res = await fetch("https://ipinfo.io/json?token=0d10fdc946df5a");
-        if(res.status == 200){
-            if (!res.ok) {
-                const message = `An error has occured: ${res.status}`;
-                throw new Error(message);
-            } else {
-                const json = await res.json();
-                client_ipaddress = json.ip;
-                client_timezone = json.timezone;
-            }
-        }else{
-            client_ipaddress = "111.111.111.111";
+        const res = await fetch("/check/healthz");
+        if (!res.ok) {
+            const message = `An error has occured: ${res.status}`;
+        throw new Error(message);
+        } else {
+            const json = await res.json();
+            console.log(json)
+            client_ipaddress = json.real_ip;
             client_timezone = "Asia/Jakarta";
         }
-        
     }
     initTimezone();
     $:{

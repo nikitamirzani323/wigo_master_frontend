@@ -312,6 +312,11 @@
     };
     const showAdmin = (e) => {
         idcompany = e
+        flat_panel_active = "admin" 
+        css_panel_admin = "active"; 
+        css_panel_rule = ""; 
+        flat_panel_admin = true; 
+        flat_panel_rule = false; 
         call_admin(idcompany)
         myModal_admin = new bootstrap.Modal(document.getElementById("modal_companyadmin"));
         myModal_admin.show();
@@ -628,7 +633,7 @@
             flag = false
             msg += "The Company is required\n"
         }
-        if(parseInt(money_credit_field) < 0){
+        if(parseInt(money_credit_field) < 1){
             flag = false
             msg += "The Credit is required\n"
         }
@@ -1155,18 +1160,20 @@
     modal_search={true}
     modal_footer={true}>
     <slot:template slot="search">
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-              <span on:click={() => {
-                    tab_admin("admin");
-                }} class="nav-link {css_panel_admin}" style="cursor: pointer;" >Admin</span>
-            </li>
-            <li class="nav-item">
-              <span on:click={() => {
-                    tab_admin("rule");
-                }}  class="nav-link {css_panel_rule}" style="cursor: pointer;">Rule</span>
-            </li>
-        </ul>
+        <div style="padding: 5px;">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <span on:click={() => {
+                        tab_admin("admin");
+                    }} class="nav-link {css_panel_admin}" style="cursor: pointer;" >Admin</span>
+                </li>
+                <li class="nav-item">
+                  <span on:click={() => {
+                        tab_admin("rule");
+                    }}  class="nav-link {css_panel_rule}" style="cursor: pointer;">Rule</span>
+                </li>
+            </ul>
+        </div>
     </slot:template>
     <slot:template slot="body">
         {#if flat_panel_admin}
@@ -1624,7 +1631,7 @@
             <thead>
                 <tr>
                     <th width="1%" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">&nbsp;</th>
-                    <th width="*" style="text-align: left;vertical-align: top;font-weight:bold;font-size:{table_header_font};">CREDIT</th>
+                    <th width="*" style="text-align: right;vertical-align: top;font-weight:bold;font-size:{table_header_font};">CREDIT</th>
                 </tr>
             </thead>
             <tbody>
@@ -1635,7 +1642,7 @@
                             handleDelete_money(rec.companymoney_id,);
                             }} class="bi bi-trash3"></i>
                     </td>
-                    <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{new Intl.NumberFormat().format(rec.companymoney_money)}</td>
+                    <td NOWRAP style="text-align: right;vertical-align: top;font-size: {table_body_font};">{new Intl.NumberFormat().format(rec.companymoney_money)}</td>
                 </tr>
                 {/each}
             </tbody>

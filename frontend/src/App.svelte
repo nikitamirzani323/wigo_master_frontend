@@ -7,6 +7,7 @@
 	import Admin from "./pages/admin/Admin.svelte";
 	import Adminrule from "./pages/adminrule/Adminrule.svelte";
 	import Currency from "./pages/currency/Currency.svelte";
+	import Domain from "./pages/domain/Domain.svelte";
 	import Company from "./pages/company/Company.svelte";
 	import Login from "./pages/Login.svelte";
 	import NotFound from "./pages/NotFound.svelte";
@@ -31,6 +32,13 @@
 					table_body_font: table_body_font,
 				},
 				component: Dashboard,
+			}),
+			"/domain": wrap({
+				component: Domain,
+				props: {
+					table_header_font: table_header_font,
+					table_body_font: table_body_font,
+				},
 			}),
 			"/company": wrap({
 				component: Company,

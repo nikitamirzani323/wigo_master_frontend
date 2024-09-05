@@ -2,6 +2,7 @@ package routers
 
 import (
 	"bitbucket.org/isbtotogroup/wigo_master_frontend/controllers"
+	"bitbucket.org/isbtotogroup/wigo_master_frontend/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -47,29 +48,33 @@ func Init() *fiber.App {
 			"Subdomain":   c.Subdomains(),
 		})
 	})
-	app.Get("/dashboard", monitor.New())
+	app.Get("/check/healthz", controllers.HealthCheck)
+	app.Get("/check/dashboard", monitor.New())
 
-	app.Post("/api/login", controllers.CheckLogin)
-	app.Post("/api/valid", controllers.Home)
-	app.Post("/api/alladmin", controllers.Adminhome)
-	app.Post("/api/detailadmin", controllers.AdminDetail)
-	app.Post("/api/saveadmin", controllers.AdminSave)
+	api := app.Group("/api", middleware.Gateway)
 
-	app.Post("/api/alladminrule", controllers.Adminrulehome)
-	app.Post("/api/saveadminrule", controllers.AdminruleSave)
-	app.Post("/api/curr", controllers.Currencyhome)
-	app.Post("/api/currsave", controllers.CurrencySave)
-	app.Post("/api/company", controllers.Companyhome)
-	app.Post("/api/companyadmin", controllers.Companyadminhome)
-	app.Post("/api/companyadminrule", controllers.Companyadminrulehome)
-	app.Post("/api/companymoney", controllers.Companymoneyhome)
-	app.Post("/api/companyconf", controllers.Companyconfhome)
-	app.Post("/api/companysave", controllers.CompanySave)
-	app.Post("/api/companyadminsave", controllers.CompanyadminSave)
-	app.Post("/api/companyadminrulesave", controllers.CompanyadminruleSave)
-	app.Post("/api/companymoneysave", controllers.CompanymoneySave)
-	app.Post("/api/companymoneydelete", controllers.CompanymoneyDelete)
-	app.Post("/api/companyconfsave", controllers.CompanyconfSave)
+	api.Post("/login", controllers.CheckLogin)
+	api.Post("/valid", controllers.Home)
+	api.Post("/alladmin", controllers.Adminhome)
+	api.Post("/detailadmin", controllers.AdminDetail)
+	api.Post("/saveadmin", controllers.AdminSave)
+	api.Post("/alladminrule", controllers.Adminrulehome)
+	api.Post("/saveadminrule", controllers.AdminruleSave)
+	api.Post("/curr", controllers.Currencyhome)
+	api.Post("/currsave", controllers.CurrencySave)
+	api.Post("/domain", controllers.Domainhome)
+	api.Post("/domainsave", controllers.DomainSave)
+	api.Post("/company", controllers.Companyhome)
+	api.Post("/companyadmin", controllers.Companyadminhome)
+	api.Post("/companyadminrule", controllers.Companyadminrulehome)
+	api.Post("/companymoney", controllers.Companymoneyhome)
+	api.Post("/companyconf", controllers.Companyconfhome)
+	api.Post("/companysave", controllers.CompanySave)
+	api.Post("/companyadminsave", controllers.CompanyadminSave)
+	api.Post("/companyadminrulesave", controllers.CompanyadminruleSave)
+	api.Post("/companymoneysave", controllers.CompanymoneySave)
+	api.Post("/companymoneydelete", controllers.CompanymoneyDelete)
+	api.Post("/companyconfsave", controllers.CompanyconfSave)
 
 	return app
 }

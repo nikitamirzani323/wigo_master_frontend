@@ -1,7 +1,7 @@
 package configs
 
 import (
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -13,6 +13,6 @@ func GetPathAPI() string {
 		panic("Failed to load env file")
 	}
 	result := os.Getenv("PATH_API")
-	log.Println(result)
+	fmt.Println(result)
 	return result
 }

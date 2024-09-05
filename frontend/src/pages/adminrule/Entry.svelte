@@ -205,6 +205,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th colspan="2">DOMAIN</th>
                                 <th colspan="2">COMPANY</th>
                                 <th colspan="2">COMPANY ADMIN</th>
                                 <th colspan="2">COMPANY CONFIG</th>
@@ -213,6 +214,12 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td width="1%">
+                                    <input bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="DOMAIN-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
                                 <td width="1%">
                                     <input bind:group={adminrule_rule_field}
                                         type="checkbox"
@@ -239,6 +246,12 @@
                                 <td width="*">VIEW</td>
                             </tr>
                             <tr>
+                                <td width="1%">
+                                    <input bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="DOMAIN-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
                                 <td width="1%">
                                     <input bind:group={adminrule_rule_field}
                                         type="checkbox"
