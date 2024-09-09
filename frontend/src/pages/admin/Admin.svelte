@@ -63,7 +63,7 @@
               admin_nama: record[i]["admin_nama"],
               admin_rule: record[i]["admin_rule"],
               admin_joindate: dayjs(record[i]["admin_joindate"]).format("YYYY-MM-DD"),
-              admin_lastlogin: dayjs(record[i]["admin_lastlogin"]).format("YYYY-MM-DD"),
+              admin_lastlogin: dayjs(record[i]["admin_lastlogin"]).format("YYYY-MM-DD HH:mm:ss"), 
               admin_lastipaddres: record[i]["admin_lastipaddres"],
               admin_status: record[i]["admin_status"],
               admin_statuscss: css_status,
